@@ -1,0 +1,1405 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FreshStock - Sistema de Gestión de Inventarios</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<!-- ==================== LOGIN SCREEN ==================== -->
+<div id="screen-login" class="screen active">
+  <div class="login-container">
+    <div class="login-left">
+      <div class="login-brand-area">
+        <div class="floating-elements">
+          <div class="float-card fc1"><i class="fas fa-box-open"></i><span>324 productos</span></div>
+          <div class="float-card fc2"><i class="fas fa-chart-line"></i><span>+12% ventas</span></div>
+          <div class="float-card fc3"><i class="fas fa-bell"></i><span>3 alertas</span></div>
+          <div class="float-card fc4"><i class="fas fa-leaf"></i><span>0% merma</span></div>
+        </div>
+        <div class="login-hero-text">
+          <div class="logo-big">
+            <div class="logo-icon-big"><i class="fas fa-seedling"></i></div>
+            <h1>Fresh<span>Stock</span></h1>
+          </div>
+          <p class="hero-subtitle">Gestión inteligente de inventarios y caducidad para tu negocio</p>
+          <div class="hero-features">
+            <div class="hf"><i class="fas fa-check-circle"></i> Control en tiempo real</div>
+            <div class="hf"><i class="fas fa-check-circle"></i> Alertas de caducidad</div>
+            <div class="hf"><i class="fas fa-check-circle"></i> Método PEPS automático</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="login-right">
+      <div class="login-form-container">
+        <div class="login-form-header">
+          <div class="logo-small"><i class="fas fa-seedling"></i> FreshStock</div>
+          <h2>Bienvenido de vuelta</h2>
+          <p>Ingresa tus credenciales para continuar</p>
+        </div>
+        <form class="login-form" onsubmit="event.preventDefault(); navigateTo('screen-dashboard');">
+          <div class="form-group">
+            <label>Correo electrónico</label>
+            <div class="input-icon">
+              <i class="fas fa-envelope"></i>
+              <input type="email" placeholder="tu@correo.com" value="admin@freshstock.com">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Contraseña</label>
+            <div class="input-icon">
+              <i class="fas fa-lock"></i>
+              <input type="password" placeholder="••••••••" value="password123">
+              <i class="fas fa-eye toggle-pass"></i>
+            </div>
+          </div>
+          <div class="form-options">
+            <label class="checkbox-custom"><input type="checkbox" checked><span class="checkmark"></span> Recordarme</label>
+            <a href="#">¿Olvidaste tu contraseña?</a>
+          </div>
+          <button type="submit" class="btn-primary btn-full">
+            <span>Iniciar Sesión</span>
+            <i class="fas fa-arrow-right"></i>
+          </button>
+          <div class="login-divider"><span>o continúa con</span></div>
+          <div class="social-login">
+            <button type="button" class="btn-social"><i class="fab fa-google"></i></button>
+            <button type="button" class="btn-social"><i class="fab fa-microsoft"></i></button>
+          </div>
+        </form>
+        <p class="login-footer">¿No tienes cuenta? <a href="#">Solicitar acceso</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== DASHBOARD ==================== -->
+<div id="screen-dashboard" class="screen">
+  <div class="app-layout">
+    <nav class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="logo-small"><i class="fas fa-seedling"></i> <span>FreshStock</span></div>
+        <button class="sidebar-toggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+      </div>
+      <div class="sidebar-user">
+        <div class="user-avatar">SA</div>
+        <div class="user-info">
+          <span class="user-name">Sadid Acosta</span>
+          <span class="user-role">Administrador</span>
+        </div>
+      </div>
+      <ul class="sidebar-menu">
+        <li class="menu-label">Principal</li>
+        <li class="active" onclick="navigateTo('screen-dashboard')"><i class="fas fa-th-large"></i><span>Dashboard</span></li>
+        <li onclick="navigateTo('screen-products')"><i class="fas fa-box-open"></i><span>Productos</span><span class="badge">324</span></li>
+        <li onclick="navigateTo('screen-lots')"><i class="fas fa-layer-group"></i><span>Lotes</span></li>
+        <li class="menu-label">Gestión</li>
+        <li onclick="navigateTo('screen-alerts')"><i class="fas fa-bell"></i><span>Alertas</span><span class="badge badge-danger">7</span></li>
+        <li onclick="navigateTo('screen-suppliers')"><i class="fas fa-truck"></i><span>Proveedores</span></li>
+        <li onclick="navigateTo('screen-users')"><i class="fas fa-users-cog"></i><span>Usuarios</span></li>
+        <li class="menu-label">Análisis</li>
+        <li onclick="navigateTo('screen-reports')"><i class="fas fa-chart-bar"></i><span>Reportes</span></li>
+      </ul>
+      <div class="sidebar-footer">
+        <div class="sidebar-footer-item" onclick="navigateTo('screen-login')"><i class="fas fa-sign-out-alt"></i><span>Cerrar Sesión</span></div>
+      </div>
+    </nav>
+    <main class="main-content" id="main-dashboard">
+      <header class="top-bar">
+        <div class="top-bar-left">
+          <button class="mobile-menu" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+          <div class="page-title">
+            <h1>Dashboard</h1>
+            <p class="breadcrumb">Inicio / Vista General</p>
+          </div>
+        </div>
+        <div class="top-bar-right">
+          <div class="search-bar">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Buscar productos, lotes...">
+          </div>
+          <button class="icon-btn" onclick="navigateTo('screen-alerts')"><i class="fas fa-bell"></i><span class="notif-dot"></span></button>
+          <div class="user-menu">
+            <div class="user-avatar-sm">SA</div>
+          </div>
+        </div>
+      </header>
+      <div class="content-area">
+        <!-- Welcome Banner -->
+        <div class="welcome-banner">
+          <div class="wb-text">
+            <h2>¡Buenos días, Sadid! 👋</h2>
+            <p>Tienes <strong>7 alertas</strong> pendientes y <strong>3 productos</strong> próximos a vencer hoy.</p>
+            <button class="btn-primary btn-sm" onclick="navigateTo('screen-alerts')">Ver Alertas <i class="fas fa-arrow-right"></i></button>
+          </div>
+          <div class="wb-illustration">
+            <i class="fas fa-chart-pie"></i>
+          </div>
+        </div>
+        <!-- KPI Cards -->
+        <div class="kpi-grid">
+          <div class="kpi-card kpi-blue">
+            <div class="kpi-icon"><i class="fas fa-box-open"></i></div>
+            <div class="kpi-data">
+              <span class="kpi-value">324</span>
+              <span class="kpi-label">Productos Activos</span>
+            </div>
+            <div class="kpi-trend up"><i class="fas fa-arrow-up"></i> 12%</div>
+          </div>
+          <div class="kpi-card kpi-green">
+            <div class="kpi-icon"><i class="fas fa-layer-group"></i></div>
+            <div class="kpi-data">
+              <span class="kpi-value">1,247</span>
+              <span class="kpi-label">Lotes Registrados</span>
+            </div>
+            <div class="kpi-trend up"><i class="fas fa-arrow-up"></i> 8%</div>
+          </div>
+          <div class="kpi-card kpi-orange">
+            <div class="kpi-icon"><i class="fas fa-exclamation-triangle"></i></div>
+            <div class="kpi-data">
+              <span class="kpi-value">18</span>
+              <span class="kpi-label">Próximos a Vencer</span>
+            </div>
+            <div class="kpi-trend down"><i class="fas fa-arrow-down"></i> 5%</div>
+          </div>
+          <div class="kpi-card kpi-red">
+            <div class="kpi-icon"><i class="fas fa-times-circle"></i></div>
+            <div class="kpi-data">
+              <span class="kpi-value">3</span>
+              <span class="kpi-label">Stock Crítico</span>
+            </div>
+            <div class="kpi-trend down"><i class="fas fa-arrow-up"></i> 2</div>
+          </div>
+        </div>
+        <!-- Charts Row -->
+        <div class="charts-row">
+          <div class="chart-card wide">
+            <div class="card-header">
+              <h3>Movimientos de Inventario</h3>
+              <div class="card-actions">
+                <button class="chip active">Semana</button>
+                <button class="chip">Mes</button>
+                <button class="chip">Año</button>
+              </div>
+            </div>
+            <div class="chart-placeholder">
+              <svg viewBox="0 0 600 200" class="line-chart-svg">
+                <defs>
+                  <linearGradient id="grad1" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" style="stop-color:#10b981;stop-opacity:0.3"/>
+                    <stop offset="100%" style="stop-color:#10b981;stop-opacity:0"/>
+                  </linearGradient>
+                  <linearGradient id="grad2" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" style="stop-color:#6366f1;stop-opacity:0.3"/>
+                    <stop offset="100%" style="stop-color:#6366f1;stop-opacity:0"/>
+                  </linearGradient>
+                </defs>
+                <path d="M0,150 Q75,120 150,100 T300,80 T450,60 T600,40 V200 H0 Z" fill="url(#grad1)"/>
+                <path d="M0,150 Q75,120 150,100 T300,80 T450,60 T600,40" fill="none" stroke="#10b981" stroke-width="3"/>
+                <path d="M0,170 Q75,140 150,130 T300,120 T450,110 T600,90 V200 H0 Z" fill="url(#grad2)"/>
+                <path d="M0,170 Q75,140 150,130 T300,120 T450,110 T600,90" fill="none" stroke="#6366f1" stroke-width="3"/>
+                <circle cx="150" cy="100" r="5" fill="#10b981"/>
+                <circle cx="300" cy="80" r="5" fill="#10b981"/>
+                <circle cx="450" cy="60" r="5" fill="#10b981"/>
+                <circle cx="150" cy="130" r="5" fill="#6366f1"/>
+                <circle cx="300" cy="120" r="5" fill="#6366f1"/>
+                <circle cx="450" cy="110" r="5" fill="#6366f1"/>
+                <text x="0" y="195" fill="#94a3b8" font-size="11">Lun</text>
+                <text x="100" y="195" fill="#94a3b8" font-size="11">Mar</text>
+                <text x="200" y="195" fill="#94a3b8" font-size="11">Mié</text>
+                <text x="300" y="195" fill="#94a3b8" font-size="11">Jue</text>
+                <text x="400" y="195" fill="#94a3b8" font-size="11">Vie</text>
+                <text x="500" y="195" fill="#94a3b8" font-size="11">Sáb</text>
+                <text x="570" y="195" fill="#94a3b8" font-size="11">Dom</text>
+              </svg>
+              <div class="chart-legend">
+                <span class="legend-item"><span class="legend-dot" style="background:#10b981"></span> Entradas</span>
+                <span class="legend-item"><span class="legend-dot" style="background:#6366f1"></span> Salidas</span>
+              </div>
+            </div>
+          </div>
+          <div class="chart-card">
+            <div class="card-header">
+              <h3>Categorías</h3>
+              <button class="icon-btn-sm"><i class="fas fa-ellipsis-v"></i></button>
+            </div>
+            <div class="donut-chart">
+              <svg viewBox="0 0 200 200" class="donut-svg">
+                <circle cx="100" cy="100" r="80" fill="none" stroke="#e2e8f0" stroke-width="24"/>
+                <circle cx="100" cy="100" r="80" fill="none" stroke="#10b981" stroke-width="24" stroke-dasharray="150 503" stroke-dashoffset="0" class="donut-seg"/>
+                <circle cx="100" cy="100" r="80" fill="none" stroke="#6366f1" stroke-width="24" stroke-dasharray="120 503" stroke-dashoffset="-150" class="donut-seg"/>
+                <circle cx="100" cy="100" r="80" fill="none" stroke="#f59e0b" stroke-width="24" stroke-dasharray="100 503" stroke-dashoffset="-270" class="donut-seg"/>
+                <circle cx="100" cy="100" r="80" fill="none" stroke="#ef4444" stroke-width="24" stroke-dasharray="80 503" stroke-dashoffset="-370" class="donut-seg"/>
+                <text x="100" y="95" text-anchor="middle" fill="#1e293b" font-size="24" font-weight="700">324</text>
+                <text x="100" y="115" text-anchor="middle" fill="#94a3b8" font-size="12">productos</text>
+              </svg>
+              <div class="donut-legend">
+                <div class="dl-item"><span class="dl-dot" style="background:#10b981"></span>Lácteos <strong>30%</strong></div>
+                <div class="dl-item"><span class="dl-dot" style="background:#6366f1"></span>Carnes <strong>24%</strong></div>
+                <div class="dl-item"><span class="dl-dot" style="background:#f59e0b"></span>Frutas <strong>20%</strong></div>
+                <div class="dl-item"><span class="dl-dot" style="background:#ef4444"></span>Panadería <strong>16%</strong></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Recent Activity & Expiring -->
+        <div class="charts-row">
+          <div class="chart-card">
+            <div class="card-header">
+              <h3>⚠️ Próximos a Vencer</h3>
+              <a href="#" onclick="navigateTo('screen-alerts')">Ver todos</a>
+            </div>
+            <div class="expiry-list">
+              <div class="expiry-item critical">
+                <div class="expiry-icon"><i class="fas fa-cheese"></i></div>
+                <div class="expiry-info">
+                  <span class="expiry-name">Queso Mozzarella</span>
+                  <span class="expiry-lot">Lote #L-2024-0891</span>
+                </div>
+                <div class="expiry-date">
+                  <span class="expiry-badge danger">Hoy</span>
+                </div>
+              </div>
+              <div class="expiry-item warning">
+                <div class="expiry-icon"><i class="fas fa-drumstick-bite"></i></div>
+                <div class="expiry-info">
+                  <span class="expiry-name">Pechuga de Pollo</span>
+                  <span class="expiry-lot">Lote #L-2024-0887</span>
+                </div>
+                <div class="expiry-date">
+                  <span class="expiry-badge warning">2 días</span>
+                </div>
+              </div>
+              <div class="expiry-item warning">
+                <div class="expiry-icon"><i class="fas fa-fish"></i></div>
+                <div class="expiry-info">
+                  <span class="expiry-name">Salmón Fresco</span>
+                  <span class="expiry-lot">Lote #L-2024-0885</span>
+                </div>
+                <div class="expiry-date">
+                  <span class="expiry-badge warning">3 días</span>
+                </div>
+              </div>
+              <div class="expiry-item caution">
+                <div class="expiry-icon"><i class="fas fa-bread-slice"></i></div>
+                <div class="expiry-info">
+                  <span class="expiry-name">Pan Integral</span>
+                  <span class="expiry-lot">Lote #L-2024-0880</span>
+                </div>
+                <div class="expiry-date">
+                  <span class="expiry-badge caution">5 días</span>
+                </div>
+              </div>
+              <div class="expiry-item ok">
+                <div class="expiry-icon"><i class="fas fa-apple-alt"></i></div>
+                <div class="expiry-info">
+                  <span class="expiry-name">Yogurt Natural</span>
+                  <span class="expiry-lot">Lote #L-2024-0878</span>
+                </div>
+                <div class="expiry-date">
+                  <span class="expiry-badge ok">7 días</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="chart-card">
+            <div class="card-header">
+              <h3>📋 Actividad Reciente</h3>
+              <a href="#" onclick="navigateTo('screen-reports')">Ver historial</a>
+            </div>
+            <div class="activity-list">
+              <div class="activity-item">
+                <div class="activity-dot green"></div>
+                <div class="activity-info">
+                  <span class="activity-text"><strong>Juan Pablo</strong> registró entrada de <strong>50 unid.</strong> Leche Entera</span>
+                  <span class="activity-time">Hace 15 min</span>
+                </div>
+              </div>
+              <div class="activity-item">
+                <div class="activity-dot blue"></div>
+                <div class="activity-info">
+                  <span class="activity-text"><strong>Brian</strong> actualizó stock de <strong>Arroz Premium</strong></span>
+                  <span class="activity-time">Hace 32 min</span>
+                </div>
+              </div>
+              <div class="activity-item">
+                <div class="activity-dot orange"></div>
+                <div class="activity-info">
+                  <span class="activity-text">Alerta: <strong>Queso Mozzarella</strong> vence hoy</span>
+                  <span class="activity-time">Hace 1 hora</span>
+                </div>
+              </div>
+              <div class="activity-item">
+                <div class="activity-dot red"></div>
+                <div class="activity-info">
+                  <span class="activity-text"><strong>Sadid</strong> registró merma de <strong>5 unid.</strong> Pan Francés</span>
+                  <span class="activity-time">Hace 2 horas</span>
+                </div>
+              </div>
+              <div class="activity-item">
+                <div class="activity-dot purple"></div>
+                <div class="activity-info">
+                  <span class="activity-text">Nuevo proveedor <strong>Lácteos del Valle</strong> registrado</span>
+                  <span class="activity-time">Hace 3 horas</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- ==================== PRODUCTS CATALOG ==================== -->
+<div id="screen-products" class="screen">
+  <div class="app-layout">
+    <nav class="sidebar" id="sidebar2">
+      <div class="sidebar-header">
+        <div class="logo-small"><i class="fas fa-seedling"></i> <span>FreshStock</span></div>
+      </div>
+      <div class="sidebar-user">
+        <div class="user-avatar">SA</div>
+        <div class="user-info"><span class="user-name">Sadid Acosta</span><span class="user-role">Administrador</span></div>
+      </div>
+      <ul class="sidebar-menu">
+        <li class="menu-label">Principal</li>
+        <li onclick="navigateTo('screen-dashboard')"><i class="fas fa-th-large"></i><span>Dashboard</span></li>
+        <li class="active" onclick="navigateTo('screen-products')"><i class="fas fa-box-open"></i><span>Productos</span><span class="badge">324</span></li>
+        <li onclick="navigateTo('screen-lots')"><i class="fas fa-layer-group"></i><span>Lotes</span></li>
+        <li class="menu-label">Gestión</li>
+        <li onclick="navigateTo('screen-alerts')"><i class="fas fa-bell"></i><span>Alertas</span><span class="badge badge-danger">7</span></li>
+        <li onclick="navigateTo('screen-suppliers')"><i class="fas fa-truck"></i><span>Proveedores</span></li>
+        <li onclick="navigateTo('screen-users')"><i class="fas fa-users-cog"></i><span>Usuarios</span></li>
+        <li class="menu-label">Análisis</li>
+        <li onclick="navigateTo('screen-reports')"><i class="fas fa-chart-bar"></i><span>Reportes</span></li>
+      </ul>
+      <div class="sidebar-footer">
+        <div class="sidebar-footer-item" onclick="navigateTo('screen-login')"><i class="fas fa-sign-out-alt"></i><span>Cerrar Sesión</span></div>
+      </div>
+    </nav>
+    <main class="main-content">
+      <header class="top-bar">
+        <div class="top-bar-left">
+          <div class="page-title"><h1>Catálogo de Productos</h1><p class="breadcrumb">Inicio / Productos</p></div>
+        </div>
+        <div class="top-bar-right">
+          <div class="search-bar"><i class="fas fa-search"></i><input type="text" placeholder="Buscar productos..."></div>
+          <button class="icon-btn" onclick="navigateTo('screen-alerts')"><i class="fas fa-bell"></i><span class="notif-dot"></span></button>
+        </div>
+      </header>
+      <div class="content-area">
+        <!-- Filters Bar -->
+        <div class="filters-bar">
+          <div class="filters-left">
+            <button class="chip active">Todos <span class="chip-count">324</span></button>
+            <button class="chip">Lácteos <span class="chip-count">98</span></button>
+            <button class="chip">Carnes <span class="chip-count">76</span></button>
+            <button class="chip">Frutas <span class="chip-count">65</span></button>
+            <button class="chip">Panadería <span class="chip-count">52</span></button>
+            <button class="chip">Bebidas <span class="chip-count">33</span></button>
+          </div>
+          <div class="filters-right">
+            <button class="btn-outline"><i class="fas fa-filter"></i> Filtros</button>
+            <button class="btn-outline"><i class="fas fa-sort-amount-down"></i> Ordenar</button>
+            <button class="btn-primary" onclick="navigateTo('screen-product-detail')"><i class="fas fa-plus"></i> Nuevo Producto</button>
+          </div>
+        </div>
+        <!-- Product Grid -->
+        <div class="product-grid">
+          <div class="product-card" onclick="navigateTo('screen-product-detail')">
+            <div class="pc-image" style="background: linear-gradient(135deg, #dbeafe, #bfdbfe);">
+              <i class="fas fa-cheese" style="color:#3b82f6;font-size:2.5rem;"></i>
+              <span class="pc-badge ok">En Stock</span>
+            </div>
+            <div class="pc-body">
+              <span class="pc-category">Lácteos</span>
+              <h4>Queso Mozzarella</h4>
+              <p class="pc-sku">SKU: LAC-001</p>
+              <div class="pc-stock">
+                <div class="stock-bar"><div class="stock-fill" style="width:75%;background:#10b981;"></div></div>
+                <span>75 / 100 unid.</span>
+              </div>
+              <div class="pc-footer">
+                <span class="pc-price">$12,500</span>
+                <span class="pc-lots">3 lotes</span>
+              </div>
+            </div>
+          </div>
+          <div class="product-card" onclick="navigateTo('screen-product-detail')">
+            <div class="pc-image" style="background: linear-gradient(135deg, #fce7f3, #fbcfe8);">
+              <i class="fas fa-drumstick-bite" style="color:#ec4899;font-size:2.5rem;"></i>
+              <span class="pc-badge warning">Stock Bajo</span>
+            </div>
+            <div class="pc-body">
+              <span class="pc-category">Carnes</span>
+              <h4>Pechuga de Pollo</h4>
+              <p class="pc-sku">SKU: CAR-015</p>
+              <div class="pc-stock">
+                <div class="stock-bar"><div class="stock-fill" style="width:25%;background:#f59e0b;"></div></div>
+                <span>12 / 50 kg</span>
+              </div>
+              <div class="pc-footer">
+                <span class="pc-price">$18,900</span>
+                <span class="pc-lots">2 lotes</span>
+              </div>
+            </div>
+          </div>
+          <div class="product-card" onclick="navigateTo('screen-product-detail')">
+            <div class="pc-image" style="background: linear-gradient(135deg, #d1fae5, #a7f3d0);">
+              <i class="fas fa-apple-alt" style="color:#10b981;font-size:2.5rem;"></i>
+              <span class="pc-badge ok">En Stock</span>
+            </div>
+            <div class="pc-body">
+              <span class="pc-category">Frutas</span>
+              <h4>Manzana Roja</h4>
+              <p class="pc-sku">SKU: FRU-008</p>
+              <div class="pc-stock">
+                <div class="stock-bar"><div class="stock-fill" style="width:90%;background:#10b981;"></div></div>
+                <span>45 / 50 kg</span>
+              </div>
+              <div class="pc-footer">
+                <span class="pc-price">$4,200</span>
+                <span class="pc-lots">1 lote</span>
+              </div>
+            </div>
+          </div>
+          <div class="product-card" onclick="navigateTo('screen-product-detail')">
+            <div class="pc-image" style="background: linear-gradient(135deg, #fef3c7, #fde68a);">
+              <i class="fas fa-bread-slice" style="color:#f59e0b;font-size:2.5rem;"></i>
+              <span class="pc-badge danger">Crítico</span>
+            </div>
+            <div class="pc-body">
+              <span class="pc-category">Panadería</span>
+              <h4>Pan Integral</h4>
+              <p class="pc-sku">SKU: PAN-003</p>
+              <div class="pc-stock">
+                <div class="stock-bar"><div class="stock-fill" style="width:10%;background:#ef4444;"></div></div>
+                <span>5 / 50 unid.</span>
+              </div>
+              <div class="pc-footer">
+                <span class="pc-price">$3,800</span>
+                <span class="pc-lots">1 lote</span>
+              </div>
+            </div>
+          </div>
+          <div class="product-card" onclick="navigateTo('screen-product-detail')">
+            <div class="pc-image" style="background: linear-gradient(135deg, #ede9fe, #ddd6fe);">
+              <i class="fas fa-wine-bottle" style="color:#8b5cf6;font-size:2.5rem;"></i>
+              <span class="pc-badge ok">En Stock</span>
+            </div>
+            <div class="pc-body">
+              <span class="pc-category">Bebidas</span>
+              <h4>Jugo de Naranja</h4>
+              <p class="pc-sku">SKU: BEB-022</p>
+              <div class="pc-stock">
+                <div class="stock-bar"><div class="stock-fill" style="width:60%;background:#10b981;"></div></div>
+                <span>30 / 50 litros</span>
+              </div>
+              <div class="pc-footer">
+                <span class="pc-price">$6,500</span>
+                <span class="pc-lots">2 lotes</span>
+              </div>
+            </div>
+          </div>
+          <div class="product-card" onclick="navigateTo('screen-product-detail')">
+            <div class="pc-image" style="background: linear-gradient(135deg, #fee2e2, #fecaca);">
+              <i class="fas fa-fish" style="color:#ef4444;font-size:2.5rem;"></i>
+              <span class="pc-badge warning">Stock Bajo</span>
+            </div>
+            <div class="pc-body">
+              <span class="pc-category">Carnes</span>
+              <h4>Salmón Fresco</h4>
+              <p class="pc-sku">SKU: CAR-028</p>
+              <div class="pc-stock">
+                <div class="stock-bar"><div class="stock-fill" style="width:30%;background:#f59e0b;"></div></div>
+                <span>6 / 20 kg</span>
+              </div>
+              <div class="pc-footer">
+                <span class="pc-price">$45,000</span>
+                <span class="pc-lots">2 lotes</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="pagination">
+          <button class="page-btn active">1</button>
+          <button class="page-btn">2</button>
+          <button class="page-btn">3</button>
+          <span>...</span>
+          <button class="page-btn">12</button>
+          <button class="page-btn"><i class="fas fa-chevron-right"></i></button>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- ==================== PRODUCT DETAIL ==================== -->
+<div id="screen-product-detail" class="screen">
+  <div class="app-layout">
+    <nav class="sidebar">
+      <div class="sidebar-header"><div class="logo-small"><i class="fas fa-seedling"></i> <span>FreshStock</span></div></div>
+      <div class="sidebar-user"><div class="user-avatar">SA</div><div class="user-info"><span class="user-name">Sadid Acosta</span><span class="user-role">Administrador</span></div></div>
+      <ul class="sidebar-menu">
+        <li class="menu-label">Principal</li>
+        <li onclick="navigateTo('screen-dashboard')"><i class="fas fa-th-large"></i><span>Dashboard</span></li>
+        <li class="active" onclick="navigateTo('screen-products')"><i class="fas fa-box-open"></i><span>Productos</span></li>
+        <li onclick="navigateTo('screen-lots')"><i class="fas fa-layer-group"></i><span>Lotes</span></li>
+        <li class="menu-label">Gestión</li>
+        <li onclick="navigateTo('screen-alerts')"><i class="fas fa-bell"></i><span>Alertas</span><span class="badge badge-danger">7</span></li>
+        <li onclick="navigateTo('screen-suppliers')"><i class="fas fa-truck"></i><span>Proveedores</span></li>
+        <li onclick="navigateTo('screen-users')"><i class="fas fa-users-cog"></i><span>Usuarios</span></li>
+        <li class="menu-label">Análisis</li>
+        <li onclick="navigateTo('screen-reports')"><i class="fas fa-chart-bar"></i><span>Reportes</span></li>
+      </ul>
+    </nav>
+    <main class="main-content">
+      <header class="top-bar">
+        <div class="top-bar-left">
+          <button class="btn-ghost" onclick="navigateTo('screen-products')"><i class="fas fa-arrow-left"></i> Volver</button>
+          <div class="page-title"><h1>Detalle de Producto</h1><p class="breadcrumb">Productos / Queso Mozzarella</p></div>
+        </div>
+        <div class="top-bar-right">
+          <button class="btn-outline"><i class="fas fa-edit"></i> Editar</button>
+          <button class="btn-danger-outline"><i class="fas fa-trash"></i> Eliminar</button>
+        </div>
+      </header>
+      <div class="content-area">
+        <div class="detail-grid">
+          <div class="detail-main">
+            <div class="detail-card">
+              <div class="detail-header-visual" style="background: linear-gradient(135deg, #dbeafe, #bfdbfe);">
+                <i class="fas fa-cheese" style="font-size:4rem;color:#3b82f6;"></i>
+              </div>
+              <div class="detail-info">
+                <span class="pc-category">Lácteos</span>
+                <h2>Queso Mozzarella</h2>
+                <p class="detail-desc">Queso mozzarella fresco de alta calidad, ideal para pizzas y ensaladas. Presentación en bloque de 500g.</p>
+                <div class="detail-meta">
+                  <div class="dm-item"><i class="fas fa-barcode"></i><span>SKU: LAC-001</span></div>
+                  <div class="dm-item"><i class="fas fa-weight-hanging"></i><span>Unidad: Unidades (500g)</span></div>
+                  <div class="dm-item"><i class="fas fa-warehouse"></i><span>Stock Mínimo: 20 unid.</span></div>
+                  <div class="dm-item"><i class="fas fa-truck"></i><span>Proveedor: Lácteos del Valle</span></div>
+                </div>
+              </div>
+            </div>
+            <!-- Lots Table (PEPS) -->
+            <div class="chart-card">
+              <div class="card-header">
+                <h3>📦 Lotes Activos (PEPS)</h3>
+                <button class="btn-primary btn-sm" onclick="navigateTo('screen-lot-register')"><i class="fas fa-plus"></i> Nuevo Lote</button>
+              </div>
+              <table class="data-table">
+                <thead>
+                  <tr><th>Lote</th><th>Entrada</th><th>Caducidad</th><th>Cantidad</th><th>Estado</th><th>Acciones</th></tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>#L-2024-0891</strong></td>
+                    <td>15 Feb 2026</td>
+                    <td><span class="expiry-badge danger">01 Mar 2026</span></td>
+                    <td>
+                      <div class="mini-stock"><div class="stock-bar"><div class="stock-fill" style="width:20%;background:#ef4444;"></div></div><span>10/50</span></div>
+                    </td>
+                    <td><span class="status-badge critical">Vence Hoy</span></td>
+                    <td><button class="icon-btn-sm"><i class="fas fa-eye"></i></button><button class="icon-btn-sm"><i class="fas fa-minus-circle"></i></button></td>
+                  </tr>
+                  <tr>
+                    <td><strong>#L-2024-0895</strong></td>
+                    <td>20 Feb 2026</td>
+                    <td><span class="expiry-badge warning">05 Mar 2026</span></td>
+                    <td>
+                      <div class="mini-stock"><div class="stock-bar"><div class="stock-fill" style="width:60%;background:#f59e0b;"></div></div><span>30/50</span></div>
+                    </td>
+                    <td><span class="status-badge warning">4 días</span></td>
+                    <td><button class="icon-btn-sm"><i class="fas fa-eye"></i></button><button class="icon-btn-sm"><i class="fas fa-minus-circle"></i></button></td>
+                  </tr>
+                  <tr>
+                    <td><strong>#L-2024-0901</strong></td>
+                    <td>28 Feb 2026</td>
+                    <td><span class="expiry-badge ok">15 Mar 2026</span></td>
+                    <td>
+                      <div class="mini-stock"><div class="stock-bar"><div class="stock-fill" style="width:100%;background:#10b981;"></div></div><span>35/35</span></div>
+                    </td>
+                    <td><span class="status-badge ok">14 días</span></td>
+                    <td><button class="icon-btn-sm"><i class="fas fa-eye"></i></button><button class="icon-btn-sm"><i class="fas fa-minus-circle"></i></button></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="detail-sidebar">
+            <div class="chart-card">
+              <h3>📊 Resumen de Stock</h3>
+              <div class="stock-summary">
+                <div class="ss-item"><span class="ss-label">Stock Total</span><span class="ss-value">75 unid.</span></div>
+                <div class="ss-item"><span class="ss-label">Stock Mínimo</span><span class="ss-value">20 unid.</span></div>
+                <div class="ss-item"><span class="ss-label">Lotes Activos</span><span class="ss-value">3</span></div>
+                <div class="ss-item"><span class="ss-label">Próximo Vencimiento</span><span class="ss-value text-danger">Hoy</span></div>
+              </div>
+            </div>
+            <div class="chart-card">
+              <h3>📈 Historial de Movimientos</h3>
+              <div class="mini-chart">
+                <svg viewBox="0 0 200 80">
+                  <polyline points="0,60 30,45 60,50 90,30 120,35 150,20 180,25 200,15" fill="none" stroke="#10b981" stroke-width="2"/>
+                  <polyline points="0,70 30,65 60,60 90,55 120,50 150,45 180,40 200,35" fill="none" stroke="#6366f1" stroke-width="2" stroke-dasharray="4"/>
+                </svg>
+              </div>
+            </div>
+            <div class="chart-card">
+              <h3>🏷️ Código de Barras</h3>
+              <div class="barcode-display">
+                <svg viewBox="0 0 200 60">
+                  <rect x="10" y="5" width="2" height="45" fill="#1e293b"/>
+                  <rect x="14" y="5" width="1" height="45" fill="#1e293b"/>
+                  <rect x="18" y="5" width="3" height="45" fill="#1e293b"/>
+                  <rect x="24" y="5" width="1" height="45" fill="#1e293b"/>
+                  <rect x="28" y="5" width="2" height="45" fill="#1e293b"/>
+                  <rect x="33" y="5" width="1" height="45" fill="#1e293b"/>
+                  <rect x="37" y="5" width="3" height="45" fill="#1e293b"/>
+                  <rect x="43" y="5" width="2" height="45" fill="#1e293b"/>
+                  <rect x="48" y="5" width="1" height="45" fill="#1e293b"/>
+                  <rect x="52" y="5" width="2" height="45" fill="#1e293b"/>
+                  <rect x="57" y="5" width="3" height="45" fill="#1e293b"/>
+                  <rect x="63" y="5" width="1" height="45" fill="#1e293b"/>
+                  <rect x="67" y="5" width="2" height="45" fill="#1e293b"/>
+                  <rect x="72" y="5" width="1" height="45" fill="#1e293b"/>
+                  <rect x="76" y="5" width="3" height="45" fill="#1e293b"/>
+                  <rect x="82" y="5" width="2" height="45" fill="#1e293b"/>
+                  <rect x="87" y="5" width="1" height="45" fill="#1e293b"/>
+                  <rect x="91" y="5" width="2" height="45" fill="#1e293b"/>
+                  <rect x="96" y="5" width="3" height="45" fill="#1e293b"/>
+                  <rect x="102" y="5" width="1" height="45" fill="#1e293b"/>
+                  <rect x="106" y="5" width="2" height="45" fill="#1e293b"/>
+                  <rect x="111" y="5" width="1" height="45" fill="#1e293b"/>
+                  <rect x="115" y="5" width="3" height="45" fill="#1e293b"/>
+                  <rect x="121" y="5" width="2" height="45" fill="#1e293b"/>
+                  <rect x="126" y="5" width="1" height="45" fill="#1e293b"/>
+                  <rect x="130" y="5" width="2" height="45" fill="#1e293b"/>
+                  <rect x="135" y="5" width="3" height="45" fill="#1e293b"/>
+                  <rect x="141" y="5" width="1" height="45" fill="#1e293b"/>
+                  <rect x="145" y="5" width="2" height="45" fill="#1e293b"/>
+                  <rect x="150" y="5" width="1" height="45" fill="#1e293b"/>
+                  <rect x="154" y="5" width="3" height="45" fill="#1e293b"/>
+                  <rect x="160" y="5" width="2" height="45" fill="#1e293b"/>
+                  <rect x="165" y="5" width="1" height="45" fill="#1e293b"/>
+                  <rect x="169" y="5" width="2" height="45" fill="#1e293b"/>
+                  <rect x="174" y="5" width="3" height="45" fill="#1e293b"/>
+                  <rect x="180" y="5" width="1" height="45" fill="#1e293b"/>
+                  <rect x="184" y="5" width="2" height="45" fill="#1e293b"/>
+                  <text x="100" y="58" text-anchor="middle" font-size="8" fill="#64748b">7 702001 234567</text>
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- ==================== LOT REGISTER (Barcode Scan) ==================== -->
+<div id="screen-lot-register" class="screen">
+  <div class="app-layout">
+    <nav class="sidebar">
+      <div class="sidebar-header"><div class="logo-small"><i class="fas fa-seedling"></i> <span>FreshStock</span></div></div>
+      <div class="sidebar-user"><div class="user-avatar">SA</div><div class="user-info"><span class="user-name">Sadid Acosta</span><span class="user-role">Administrador</span></div></div>
+      <ul class="sidebar-menu">
+        <li class="menu-label">Principal</li>
+        <li onclick="navigateTo('screen-dashboard')"><i class="fas fa-th-large"></i><span>Dashboard</span></li>
+        <li onclick="navigateTo('screen-products')"><i class="fas fa-box-open"></i><span>Productos</span></li>
+        <li class="active" onclick="navigateTo('screen-lots')"><i class="fas fa-layer-group"></i><span>Lotes</span></li>
+        <li class="menu-label">Gestión</li>
+        <li onclick="navigateTo('screen-alerts')"><i class="fas fa-bell"></i><span>Alertas</span><span class="badge badge-danger">7</span></li>
+        <li onclick="navigateTo('screen-suppliers')"><i class="fas fa-truck"></i><span>Proveedores</span></li>
+        <li onclick="navigateTo('screen-users')"><i class="fas fa-users-cog"></i><span>Usuarios</span></li>
+        <li class="menu-label">Análisis</li>
+        <li onclick="navigateTo('screen-reports')"><i class="fas fa-chart-bar"></i><span>Reportes</span></li>
+      </ul>
+    </nav>
+    <main class="main-content">
+      <header class="top-bar">
+        <div class="top-bar-left">
+          <button class="btn-ghost" onclick="navigateTo('screen-lots')"><i class="fas fa-arrow-left"></i> Volver</button>
+          <div class="page-title"><h1>Registrar Nuevo Lote</h1><p class="breadcrumb">Lotes / Nuevo Registro</p></div>
+        </div>
+      </header>
+      <div class="content-area">
+        <div class="register-grid">
+          <div class="register-main">
+            <!-- Barcode Scanner -->
+            <div class="chart-card scanner-card">
+              <div class="card-header"><h3>📷 Escanear Código de Barras</h3></div>
+              <div class="scanner-area">
+                <div class="scanner-viewport">
+                  <div class="scanner-frame">
+                    <div class="scanner-corner tl"></div>
+                    <div class="scanner-corner tr"></div>
+                    <div class="scanner-corner bl"></div>
+                    <div class="scanner-corner br"></div>
+                    <div class="scanner-line"></div>
+                  </div>
+                  <div class="scanner-bg">
+                    <i class="fas fa-camera" style="font-size:3rem;color:#94a3b8;"></i>
+                    <p>Apunta la cámara al código de barras</p>
+                  </div>
+                </div>
+                <div class="scanner-actions">
+                  <button class="btn-primary"><i class="fas fa-camera"></i> Activar Cámara</button>
+                  <button class="btn-outline"><i class="fas fa-keyboard"></i> Ingresar Manual</button>
+                </div>
+                <div class="scanner-result">
+                  <i class="fas fa-check-circle" style="color:#10b981;"></i>
+                  <span>Producto detectado: <strong>Queso Mozzarella (LAC-001)</strong></span>
+                </div>
+              </div>
+            </div>
+            <!-- Lot Form -->
+            <div class="chart-card">
+              <div class="card-header"><h3>📝 Información del Lote</h3></div>
+              <form class="lot-form">
+                <div class="form-row">
+                  <div class="form-group">
+                    <label>Producto *</label>
+                    <div class="input-icon"><i class="fas fa-box"></i><input type="text" value="Queso Mozzarella" readonly></div>
+                  </div>
+                  <div class="form-group">
+                    <label>Número de Lote *</label>
+                    <div class="input-icon"><i class="fas fa-hashtag"></i><input type="text" value="L-2026-0905" placeholder="Auto-generado"></div>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label>Fecha de Entrada *</label>
+                    <div class="input-icon"><i class="fas fa-calendar"></i><input type="date" value="2026-03-01"></div>
+                  </div>
+                  <div class="form-group">
+                    <label>Fecha de Caducidad *</label>
+                    <div class="input-icon"><i class="fas fa-calendar-times"></i><input type="date" value="2026-03-15"></div>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label>Cantidad *</label>
+                    <div class="input-icon"><i class="fas fa-cubes"></i><input type="number" value="50" placeholder="0"></div>
+                  </div>
+                  <div class="form-group">
+                    <label>Ubicación en Almacén</label>
+                    <div class="input-icon"><i class="fas fa-map-marker-alt"></i><input type="text" placeholder="Ej: Estante A-3" value="Refrigerador B-2"></div>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label>Proveedor</label>
+                    <select class="form-select"><option>Lácteos del Valle</option><option>Distribuidora Central</option></select>
+                  </div>
+                  <div class="form-group">
+                    <label>Precio de Compra</label>
+                    <div class="input-icon"><i class="fas fa-dollar-sign"></i><input type="number" value="625000" placeholder="0"></div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label>Notas</label>
+                  <textarea placeholder="Observaciones adicionales..." rows="3">Lote recibido en buenas condiciones. Temperatura de transporte: 4°C</textarea>
+                </div>
+                <div class="form-actions">
+                  <button type="button" class="btn-outline" onclick="navigateTo('screen-lots')">Cancelar</button>
+                  <button type="button" class="btn-primary" onclick="navigateTo('screen-lots')"><i class="fas fa-save"></i> Registrar Lote</button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="register-sidebar">
+            <div class="chart-card">
+              <h3>ℹ️ Resumen del Producto</h3>
+              <div class="product-mini-card">
+                <div class="pmc-icon" style="background:linear-gradient(135deg,#dbeafe,#bfdbfe);"><i class="fas fa-cheese" style="color:#3b82f6;"></i></div>
+                <h4>Queso Mozzarella</h4>
+                <p>SKU: LAC-001</p>
+                <div class="pmc-stats">
+                  <div class="pmc-stat"><span class="pmc-val">75</span><span class="pmc-lbl">Stock Actual</span></div>
+                  <div class="pmc-stat"><span class="pmc-val">3</span><span class="pmc-lbl">Lotes</span></div>
+                  <div class="pmc-stat"><span class="pmc-val">20</span><span class="pmc-lbl">Stock Mín.</span></div>
+                </div>
+              </div>
+            </div>
+            <div class="chart-card">
+              <h3>💡 Consejos</h3>
+              <div class="tips-list">
+                <div class="tip"><i class="fas fa-lightbulb"></i> Verifica la fecha de caducidad en el empaque antes de registrar.</div>
+                <div class="tip"><i class="fas fa-lightbulb"></i> El sistema PEPS prioriza los lotes más antiguos automáticamente.</div>
+                <div class="tip"><i class="fas fa-lightbulb"></i> Usa el escáner para agilizar el registro.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- ==================== LOTS MANAGEMENT (PEPS) ==================== -->
+<div id="screen-lots" class="screen">
+  <div class="app-layout">
+    <nav class="sidebar">
+      <div class="sidebar-header"><div class="logo-small"><i class="fas fa-seedling"></i> <span>FreshStock</span></div></div>
+      <div class="sidebar-user"><div class="user-avatar">SA</div><div class="user-info"><span class="user-name">Sadid Acosta</span><span class="user-role">Administrador</span></div></div>
+      <ul class="sidebar-menu">
+        <li class="menu-label">Principal</li>
+        <li onclick="navigateTo('screen-dashboard')"><i class="fas fa-th-large"></i><span>Dashboard</span></li>
+        <li onclick="navigateTo('screen-products')"><i class="fas fa-box-open"></i><span>Productos</span></li>
+        <li class="active" onclick="navigateTo('screen-lots')"><i class="fas fa-layer-group"></i><span>Lotes</span></li>
+        <li class="menu-label">Gestión</li>
+        <li onclick="navigateTo('screen-alerts')"><i class="fas fa-bell"></i><span>Alertas</span><span class="badge badge-danger">7</span></li>
+        <li onclick="navigateTo('screen-suppliers')"><i class="fas fa-truck"></i><span>Proveedores</span></li>
+        <li onclick="navigateTo('screen-users')"><i class="fas fa-users-cog"></i><span>Usuarios</span></li>
+        <li class="menu-label">Análisis</li>
+        <li onclick="navigateTo('screen-reports')"><i class="fas fa-chart-bar"></i><span>Reportes</span></li>
+      </ul>
+    </nav>
+    <main class="main-content">
+      <header class="top-bar">
+        <div class="top-bar-left"><div class="page-title"><h1>Gestión de Lotes</h1><p class="breadcrumb">Inicio / Lotes / Vista PEPS</p></div></div>
+        <div class="top-bar-right">
+          <div class="search-bar"><i class="fas fa-search"></i><input type="text" placeholder="Buscar lotes..."></div>
+          <button class="btn-primary" onclick="navigateTo('screen-lot-register')"><i class="fas fa-plus"></i> Nuevo Lote</button>
+        </div>
+      </header>
+      <div class="content-area">
+        <div class="peps-info-banner">
+          <div class="peps-icon"><i class="fas fa-info-circle"></i></div>
+          <div class="peps-text">
+            <strong>Método PEPS Activo:</strong> Los lotes se ordenan por fecha de entrada. El sistema prioriza la salida de los lotes más antiguos primero.
+          </div>
+        </div>
+        <div class="filters-bar">
+          <div class="filters-left">
+            <button class="chip active">Todos</button>
+            <button class="chip">Vigentes</button>
+            <button class="chip chip-warning">Por Vencer</button>
+            <button class="chip chip-danger">Vencidos</button>
+          </div>
+          <div class="filters-right">
+            <button class="btn-outline"><i class="fas fa-filter"></i> Filtros</button>
+            <button class="btn-outline"><i class="fas fa-download"></i> Exportar</button>
+          </div>
+        </div>
+        <div class="chart-card">
+          <table class="data-table">
+            <thead>
+              <tr><th>Lote</th><th>Producto</th><th>Entrada</th><th>Caducidad</th><th>Cantidad</th><th>Ubicación</th><th>Estado</th><th>Prioridad PEPS</th><th>Acciones</th></tr>
+            </thead>
+            <tbody>
+              <tr class="row-critical">
+                <td><strong>#L-2024-0891</strong></td>
+                <td><div class="td-product"><i class="fas fa-cheese"></i> Queso Mozzarella</div></td>
+                <td>15 Feb</td>
+                <td>01 Mar 2026</td>
+                <td><div class="mini-stock"><div class="stock-bar"><div class="stock-fill" style="width:20%;background:#ef4444;"></div></div><span>10/50</span></div></td>
+                <td>Refri B-2</td>
+                <td><span class="status-badge critical">Vence Hoy</span></td>
+                <td><span class="peps-priority p1">🔴 1°</span></td>
+                <td><button class="icon-btn-sm"><i class="fas fa-eye"></i></button><button class="icon-btn-sm"><i class="fas fa-edit"></i></button></td>
+              </tr>
+              <tr class="row-warning">
+                <td><strong>#L-2024-0887</strong></td>
+                <td><div class="td-product"><i class="fas fa-drumstick-bite"></i> Pechuga de Pollo</div></td>
+                <td>12 Feb</td>
+                <td>03 Mar 2026</td>
+                <td><div class="mini-stock"><div class="stock-bar"><div class="stock-fill" style="width:40%;background:#f59e0b;"></div></div><span>8/20</span></div></td>
+                <td>Refri A-1</td>
+                <td><span class="status-badge warning">2 días</span></td>
+                <td><span class="peps-priority p1">🟠 1°</span></td>
+                <td><button class="icon-btn-sm"><i class="fas fa-eye"></i></button><button class="icon-btn-sm"><i class="fas fa-edit"></i></button></td>
+              </tr>
+              <tr>
+                <td><strong>#L-2024-0895</strong></td>
+                <td><div class="td-product"><i class="fas fa-cheese"></i> Queso Mozzarella</div></td>
+                <td>20 Feb</td>
+                <td>05 Mar 2026</td>
+                <td><div class="mini-stock"><div class="stock-bar"><div class="stock-fill" style="width:60%;background:#f59e0b;"></div></div><span>30/50</span></div></td>
+                <td>Refri B-2</td>
+                <td><span class="status-badge warning">4 días</span></td>
+                <td><span class="peps-priority p2">🟡 2°</span></td>
+                <td><button class="icon-btn-sm"><i class="fas fa-eye"></i></button><button class="icon-btn-sm"><i class="fas fa-edit"></i></button></td>
+              </tr>
+              <tr>
+                <td><strong>#L-2024-0901</strong></td>
+                <td><div class="td-product"><i class="fas fa-cheese"></i> Queso Mozzarella</div></td>
+                <td>28 Feb</td>
+                <td>15 Mar 2026</td>
+                <td><div class="mini-stock"><div class="stock-bar"><div class="stock-fill" style="width:100%;background:#10b981;"></div></div><span>35/35</span></div></td>
+                <td>Refri B-3</td>
+                <td><span class="status-badge ok">14 días</span></td>
+                <td><span class="peps-priority p3">🟢 3°</span></td>
+                <td><button class="icon-btn-sm"><i class="fas fa-eye"></i></button><button class="icon-btn-sm"><i class="fas fa-edit"></i></button></td>
+              </tr>
+              <tr>
+                <td><strong>#L-2024-0898</strong></td>
+                <td><div class="td-product"><i class="fas fa-apple-alt"></i> Manzana Roja</div></td>
+                <td>22 Feb</td>
+                <td>10 Mar 2026</td>
+                <td><div class="mini-stock"><div class="stock-bar"><div class="stock-fill" style="width:90%;background:#10b981;"></div></div><span>45/50</span></div></td>
+                <td>Estante C-1</td>
+                <td><span class="status-badge ok">9 días</span></td>
+                <td><span class="peps-priority p1">🟢 1°</span></td>
+                <td><button class="icon-btn-sm"><i class="fas fa-eye"></i></button><button class="icon-btn-sm"><i class="fas fa-edit"></i></button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- ==================== ALERTS CENTER ==================== -->
+<div id="screen-alerts" class="screen">
+  <div class="app-layout">
+    <nav class="sidebar">
+      <div class="sidebar-header"><div class="logo-small"><i class="fas fa-seedling"></i> <span>FreshStock</span></div></div>
+      <div class="sidebar-user"><div class="user-avatar">SA</div><div class="user-info"><span class="user-name">Sadid Acosta</span><span class="user-role">Administrador</span></div></div>
+      <ul class="sidebar-menu">
+        <li class="menu-label">Principal</li>
+        <li onclick="navigateTo('screen-dashboard')"><i class="fas fa-th-large"></i><span>Dashboard</span></li>
+        <li onclick="navigateTo('screen-products')"><i class="fas fa-box-open"></i><span>Productos</span></li>
+        <li onclick="navigateTo('screen-lots')"><i class="fas fa-layer-group"></i><span>Lotes</span></li>
+        <li class="menu-label">Gestión</li>
+        <li class="active" onclick="navigateTo('screen-alerts')"><i class="fas fa-bell"></i><span>Alertas</span><span class="badge badge-danger">7</span></li>
+        <li onclick="navigateTo('screen-suppliers')"><i class="fas fa-truck"></i><span>Proveedores</span></li>
+        <li onclick="navigateTo('screen-users')"><i class="fas fa-users-cog"></i><span>Usuarios</span></li>
+        <li class="menu-label">Análisis</li>
+        <li onclick="navigateTo('screen-reports')"><i class="fas fa-chart-bar"></i><span>Reportes</span></li>
+      </ul>
+    </nav>
+    <main class="main-content">
+      <header class="top-bar">
+        <div class="top-bar-left"><div class="page-title"><h1>Centro de Alertas</h1><p class="breadcrumb">Inicio / Alertas</p></div></div>
+        <div class="top-bar-right">
+          <button class="btn-outline"><i class="fas fa-check-double"></i> Marcar todas como leídas</button>
+          <button class="btn-outline"><i class="fas fa-cog"></i> Configurar</button>
+        </div>
+      </header>
+      <div class="content-area">
+        <div class="alert-summary-cards">
+          <div class="alert-sum-card asc-red">
+            <i class="fas fa-skull-crossbones"></i>
+            <div><span class="asc-val">2</span><span class="asc-lbl">Vencidos</span></div>
+          </div>
+          <div class="alert-sum-card asc-orange">
+            <i class="fas fa-exclamation-triangle"></i>
+            <div><span class="asc-val">3</span><span class="asc-lbl">Vencen Hoy</span></div>
+          </div>
+          <div class="alert-sum-card asc-yellow">
+            <i class="fas fa-clock"></i>
+            <div><span class="asc-val">5</span><span class="asc-lbl">Próximos 7 días</span></div>
+          </div>
+          <div class="alert-sum-card asc-blue">
+            <i class="fas fa-arrow-down"></i>
+            <div><span class="asc-val">3</span><span class="asc-lbl">Stock Bajo</span></div>
+          </div>
+        </div>
+        <div class="filters-bar">
+          <div class="filters-left">
+            <button class="chip active">Todas <span class="chip-count">13</span></button>
+            <button class="chip chip-danger">Urgentes <span class="chip-count">5</span></button>
+            <button class="chip chip-warning">Advertencias <span class="chip-count">5</span></button>
+            <button class="chip">Informativas <span class="chip-count">3</span></button>
+          </div>
+        </div>
+        <div class="alerts-list">
+          <div class="alert-item alert-critical">
+            <div class="alert-icon-wrap critical"><i class="fas fa-skull-crossbones"></i></div>
+            <div class="alert-content">
+              <div class="alert-header-row">
+                <h4>🚨 Producto VENCIDO - Acción Inmediata Requerida</h4>
+                <span class="alert-time">Hace 2 horas</span>
+              </div>
+              <p><strong>Yogurt Griego Natural</strong> (Lote #L-2024-0870) venció el 28 Feb 2026. Cantidad restante: 12 unidades.</p>
+              <div class="alert-actions">
+                <button class="btn-danger btn-sm">Registrar Merma</button>
+                <button class="btn-outline btn-sm">Ver Lote</button>
+              </div>
+            </div>
+          </div>
+          <div class="alert-item alert-danger">
+            <div class="alert-icon-wrap danger"><i class="fas fa-exclamation-circle"></i></div>
+            <div class="alert-content">
+              <div class="alert-header-row">
+                <h4>⚠️ Vence HOY - Queso Mozzarella</h4>
+                <span class="alert-time">Hace 4 horas</span>
+              </div>
+              <p>Lote #L-2024-0891 vence hoy 01 Mar 2026. Quedan <strong>10 unidades</strong>. Considere aplicar descuento o redistribuir.</p>
+              <div class="alert-actions">
+                <button class="btn-primary btn-sm">Aplicar Descuento</button>
+                <button class="btn-outline btn-sm">Ver Producto</button>
+              </div>
+            </div>
+          </div>
+          <div class="alert-item alert-warning">
+            <div class="alert-icon-wrap warning"><i class="fas fa-clock"></i></div>
+            <div class="alert-content">
+              <div class="alert-header-row">
+                <h4>⏰ Próximo a Vencer - Pechuga de Pollo</h4>
+                <span class="alert-time">Hace 6 horas</span>
+              </div>
+              <p>Lote #L-2024-0887 vence en <strong>2 días</strong> (03 Mar 2026). Quedan 8 kg disponibles.</p>
+              <div class="alert-actions">
+                <button class="btn-outline btn-sm">Ver Lote</button>
+                <button class="btn-outline btn-sm">Notificar Equipo</button>
+              </div>
+            </div>
+          </div>
+          <div class="alert-item alert-info">
+            <div class="alert-icon-wrap info"><i class="fas fa-arrow-down"></i></div>
+            <div class="alert-content">
+              <div class="alert-header-row">
+                <h4>📉 Stock Bajo - Pan Integral</h4>
+                <span class="alert-time">Ayer</span>
+              </div>
+              <p>El stock de <strong>Pan Integral</strong> (5 unid.) está por debajo del mínimo configurado (20 unid.). Se recomienda reabastecer.</p>
+              <div class="alert-actions">
+                <button class="btn-primary btn-sm">Crear Orden de Compra</button>
+                <button class="btn-outline btn-sm">Ver Proveedores</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- ==================== SUPPLIERS ==================== -->
+<div id="screen-suppliers" class="screen">
+  <div class="app-layout">
+    <nav class="sidebar">
+      <div class="sidebar-header"><div class="logo-small"><i class="fas fa-seedling"></i> <span>FreshStock</span></div></div>
+      <div class="sidebar-user"><div class="user-avatar">SA</div><div class="user-info"><span class="user-name">Sadid Acosta</span><span class="user-role">Administrador</span></div></div>
+      <ul class="sidebar-menu">
+        <li class="menu-label">Principal</li>
+        <li onclick="navigateTo('screen-dashboard')"><i class="fas fa-th-large"></i><span>Dashboard</span></li>
+        <li onclick="navigateTo('screen-products')"><i class="fas fa-box-open"></i><span>Productos</span></li>
+        <li onclick="navigateTo('screen-lots')"><i class="fas fa-layer-group"></i><span>Lotes</span></li>
+        <li class="menu-label">Gestión</li>
+        <li onclick="navigateTo('screen-alerts')"><i class="fas fa-bell"></i><span>Alertas</span><span class="badge badge-danger">7</span></li>
+        <li class="active" onclick="navigateTo('screen-suppliers')"><i class="fas fa-truck"></i><span>Proveedores</span></li>
+        <li onclick="navigateTo('screen-users')"><i class="fas fa-users-cog"></i><span>Usuarios</span></li>
+        <li class="menu-label">Análisis</li>
+        <li onclick="navigateTo('screen-reports')"><i class="fas fa-chart-bar"></i><span>Reportes</span></li>
+      </ul>
+    </nav>
+    <main class="main-content">
+      <header class="top-bar">
+        <div class="top-bar-left"><div class="page-title"><h1>Gestión de Proveedores</h1><p class="breadcrumb">Inicio / Proveedores</p></div></div>
+        <div class="top-bar-right">
+          <div class="search-bar"><i class="fas fa-search"></i><input type="text" placeholder="Buscar proveedores..."></div>
+          <button class="btn-primary"><i class="fas fa-plus"></i> Nuevo Proveedor</button>
+        </div>
+      </header>
+      <div class="content-area">
+        <div class="supplier-grid">
+          <div class="supplier-card">
+            <div class="sc-header"><div class="sc-avatar" style="background:#dbeafe;color:#3b82f6;">LV</div><div class="sc-info"><h4>Lácteos del Valle</h4><span class="sc-type">Lácteos y Derivados</span></div><span class="status-badge ok">Activo</span></div>
+            <div class="sc-body">
+              <div class="sc-detail"><i class="fas fa-phone"></i> +57 310 456 7890</div>
+              <div class="sc-detail"><i class="fas fa-envelope"></i> ventas@lacteosv.com</div>
+              <div class="sc-detail"><i class="fas fa-map-marker-alt"></i> Bogotá, Colombia</div>
+              <div class="sc-stats">
+                <div class="sc-stat"><span class="sc-stat-val">45</span><span class="sc-stat-lbl">Productos</span></div>
+                <div class="sc-stat"><span class="sc-stat-val">128</span><span class="sc-stat-lbl">Pedidos</span></div>
+                <div class="sc-stat"><span class="sc-stat-val">98%</span><span class="sc-stat-lbl">Puntualidad</span></div>
+              </div>
+            </div>
+            <div class="sc-footer">
+              <button class="btn-outline btn-sm"><i class="fas fa-eye"></i> Ver Detalle</button>
+              <button class="btn-outline btn-sm"><i class="fas fa-shopping-cart"></i> Nuevo Pedido</button>
+            </div>
+          </div>
+          <div class="supplier-card">
+            <div class="sc-header"><div class="sc-avatar" style="background:#fce7f3;color:#ec4899;">DC</div><div class="sc-info"><h4>Distribuidora Central</h4><span class="sc-type">Carnes y Embutidos</span></div><span class="status-badge ok">Activo</span></div>
+            <div class="sc-body">
+              <div class="sc-detail"><i class="fas fa-phone"></i> +57 315 789 0123</div>
+              <div class="sc-detail"><i class="fas fa-envelope"></i> pedidos@distcentral.co</div>
+              <div class="sc-detail"><i class="fas fa-map-marker-alt"></i> Medellín, Colombia</div>
+              <div class="sc-stats">
+                <div class="sc-stat"><span class="sc-stat-val">32</span><span class="sc-stat-lbl">Productos</span></div>
+                <div class="sc-stat"><span class="sc-stat-val">95</span><span class="sc-stat-lbl">Pedidos</span></div>
+                <div class="sc-stat"><span class="sc-stat-val">92%</span><span class="sc-stat-lbl">Puntualidad</span></div>
+              </div>
+            </div>
+            <div class="sc-footer">
+              <button class="btn-outline btn-sm"><i class="fas fa-eye"></i> Ver Detalle</button>
+              <button class="btn-outline btn-sm"><i class="fas fa-shopping-cart"></i> Nuevo Pedido</button>
+            </div>
+          </div>
+          <div class="supplier-card">
+            <div class="sc-header"><div class="sc-avatar" style="background:#d1fae5;color:#10b981;">FA</div><div class="sc-info"><h4>Frutas del Agro</h4><span class="sc-type">Frutas y Verduras</span></div><span class="status-badge ok">Activo</span></div>
+            <div class="sc-body">
+              <div class="sc-detail"><i class="fas fa-phone"></i> +57 320 123 4567</div>
+              <div class="sc-detail"><i class="fas fa-envelope"></i> info@frutasagro.com</div>
+              <div class="sc-detail"><i class="fas fa-map-marker-alt"></i> Cali, Colombia</div>
+              <div class="sc-stats">
+                <div class="sc-stat"><span class="sc-stat-val">28</span><span class="sc-stat-lbl">Productos</span></div>
+                <div class="sc-stat"><span class="sc-stat-val">67</span><span class="sc-stat-lbl">Pedidos</span></div>
+                <div class="sc-stat"><span class="sc-stat-val">95%</span><span class="sc-stat-lbl">Puntualidad</span></div>
+              </div>
+            </div>
+            <div class="sc-footer">
+              <button class="btn-outline btn-sm"><i class="fas fa-eye"></i> Ver Detalle</button>
+              <button class="btn-outline btn-sm"><i class="fas fa-shopping-cart"></i> Nuevo Pedido</button>
+            </div>
+          </div>
+          <div class="supplier-card">
+            <div class="sc-header"><div class="sc-avatar" style="background:#fef3c7;color:#f59e0b;">PO</div><div class="sc-info"><h4>Panadería El Obrador</h4><span class="sc-type">Panadería y Repostería</span></div><span class="status-badge warning">Pendiente</span></div>
+            <div class="sc-body">
+              <div class="sc-detail"><i class="fas fa-phone"></i> +57 318 567 8901</div>
+              <div class="sc-detail"><i class="fas fa-envelope"></i> contacto@elobrador.co</div>
+              <div class="sc-detail"><i class="fas fa-map-marker-alt"></i> Barranquilla, Colombia</div>
+              <div class="sc-stats">
+                <div class="sc-stat"><span class="sc-stat-val">15</span><span class="sc-stat-lbl">Productos</span></div>
+                <div class="sc-stat"><span class="sc-stat-val">34</span><span class="sc-stat-lbl">Pedidos</span></div>
+                <div class="sc-stat"><span class="sc-stat-val">88%</span><span class="sc-stat-lbl">Puntualidad</span></div>
+              </div>
+            </div>
+            <div class="sc-footer">
+              <button class="btn-outline btn-sm"><i class="fas fa-eye"></i> Ver Detalle</button>
+              <button class="btn-outline btn-sm"><i class="fas fa-shopping-cart"></i> Nuevo Pedido</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- ==================== USERS ==================== -->
+<div id="screen-users" class="screen">
+  <div class="app-layout">
+    <nav class="sidebar">
+      <div class="sidebar-header"><div class="logo-small"><i class="fas fa-seedling"></i> <span>FreshStock</span></div></div>
+      <div class="sidebar-user"><div class="user-avatar">SA</div><div class="user-info"><span class="user-name">Sadid Acosta</span><span class="user-role">Administrador</span></div></div>
+      <ul class="sidebar-menu">
+        <li class="menu-label">Principal</li>
+        <li onclick="navigateTo('screen-dashboard')"><i class="fas fa-th-large"></i><span>Dashboard</span></li>
+        <li onclick="navigateTo('screen-products')"><i class="fas fa-box-open"></i><span>Productos</span></li>
+        <li onclick="navigateTo('screen-lots')"><i class="fas fa-layer-group"></i><span>Lotes</span></li>
+        <li class="menu-label">Gestión</li>
+        <li onclick="navigateTo('screen-alerts')"><i class="fas fa-bell"></i><span>Alertas</span><span class="badge badge-danger">7</span></li>
+        <li onclick="navigateTo('screen-suppliers')"><i class="fas fa-truck"></i><span>Proveedores</span></li>
+        <li class="active" onclick="navigateTo('screen-users')"><i class="fas fa-users-cog"></i><span>Usuarios</span></li>
+        <li class="menu-label">Análisis</li>
+        <li onclick="navigateTo('screen-reports')"><i class="fas fa-chart-bar"></i><span>Reportes</span></li>
+      </ul>
+    </nav>
+    <main class="main-content">
+      <header class="top-bar">
+        <div class="top-bar-left"><div class="page-title"><h1>Gestión de Usuarios</h1><p class="breadcrumb">Inicio / Usuarios</p></div></div>
+        <div class="top-bar-right">
+          <button class="btn-primary"><i class="fas fa-user-plus"></i> Nuevo Usuario</button>
+        </div>
+      </header>
+      <div class="content-area">
+        <div class="users-grid">
+          <div class="user-card">
+            <div class="uc-header"><div class="uc-avatar" style="background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;">SA</div><span class="role-badge admin">Admin</span></div>
+            <h4>Sadid Acosta</h4>
+            <p class="uc-email">sadid@freshstock.com</p>
+            <div class="uc-stats">
+              <div class="uc-stat"><span>156</span><span>Acciones</span></div>
+              <div class="uc-stat"><span>Hoy</span><span>Último acceso</span></div>
+            </div>
+            <div class="uc-footer">
+              <button class="btn-outline btn-sm"><i class="fas fa-edit"></i> Editar</button>
+              <span class="status-dot online"></span> En línea
+            </div>
+          </div>
+          <div class="user-card">
+            <div class="uc-header"><div class="uc-avatar" style="background:linear-gradient(135deg,#10b981,#34d399);color:#fff;">JP</div><span class="role-badge warehouse">Almacén</span></div>
+            <h4>Juan Pablo Chávez</h4>
+            <p class="uc-email">juanp@freshstock.com</p>
+            <div class="uc-stats">
+              <div class="uc-stat"><span>89</span><span>Acciones</span></div>
+              <div class="uc-stat"><span>Ayer</span><span>Último acceso</span></div>
+            </div>
+            <div class="uc-footer">
+              <button class="btn-outline btn-sm"><i class="fas fa-edit"></i> Editar</button>
+              <span class="status-dot offline"></span> Desconectado
+            </div>
+          </div>
+          <div class="user-card">
+            <div class="uc-header"><div class="uc-avatar" style="background:linear-gradient(135deg,#f59e0b,#fbbf24);color:#fff;">BZ</div><span class="role-badge seller">Vendedor</span></div>
+            <h4>Brian Zambrano</h4>
+            <p class="uc-email">brian@freshstock.com</p>
+            <div class="uc-stats">
+              <div class="uc-stat"><span>67</span><span>Acciones</span></div>
+              <div class="uc-stat"><span>Hoy</span><span>Último acceso</span></div>
+            </div>
+            <div class="uc-footer">
+              <button class="btn-outline btn-sm"><i class="fas fa-edit"></i> Editar</button>
+              <span class="status-dot online"></span> En línea
+            </div>
+          </div>
+        </div>
+        <!-- Roles & Permissions -->
+        <div class="chart-card" style="margin-top:1.5rem;">
+          <div class="card-header"><h3>🔐 Roles y Permisos</h3></div>
+          <table class="data-table">
+            <thead>
+              <tr><th>Permiso</th><th>Administrador</th><th>Almacén</th><th>Vendedor</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Ver Dashboard</td><td><i class="fas fa-check-circle" style="color:#10b981;"></i></td><td><i class="fas fa-check-circle" style="color:#10b981;"></i></td><td><i class="fas fa-check-circle" style="color:#10b981;"></i></td></tr>
+              <tr><td>Gestionar Productos</td><td><i class="fas fa-check-circle" style="color:#10b981;"></i></td><td><i class="fas fa-check-circle" style="color:#10b981;"></i></td><td><i class="fas fa-times-circle" style="color:#ef4444;"></i></td></tr>
+              <tr><td>Registrar Lotes</td><td><i class="fas fa-check-circle" style="color:#10b981;"></i></td><td><i class="fas fa-check-circle" style="color:#10b981;"></i></td><td><i class="fas fa-times-circle" style="color:#ef4444;"></i></td></tr>
+              <tr><td>Registrar Salidas</td><td><i class="fas fa-check-circle" style="color:#10b981;"></i></td><td><i class="fas fa-check-circle" style="color:#10b981;"></i></td><td><i class="fas fa-check-circle" style="color:#10b981;"></i></td></tr>
+              <tr><td>Gestionar Usuarios</td><td><i class="fas fa-check-circle" style="color:#10b981;"></i></td><td><i class="fas fa-times-circle" style="color:#ef4444;"></i></td><td><i class="fas fa-times-circle" style="color:#ef4444;"></i></td></tr>
+              <tr><td>Ver Reportes</td><td><i class="fas fa-check-circle" style="color:#10b981;"></i></td><td><i class="fas fa-check-circle" style="color:#10b981;"></i></td><td><i class="fas fa-minus-circle" style="color:#f59e0b;"></i></td></tr>
+              <tr><td>Gestionar Proveedores</td><td><i class="fas fa-check-circle" style="color:#10b981;"></i></td><td><i class="fas fa-times-circle" style="color:#ef4444;"></i></td><td><i class="fas fa-times-circle" style="color:#ef4444;"></i></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- ==================== REPORTS ==================== -->
+<div id="screen-reports" class="screen">
+  <div class="app-layout">
+    <nav class="sidebar">
+      <div class="sidebar-header"><div class="logo-small"><i class="fas fa-seedling"></i> <span>FreshStock</span></div></div>
+      <div class="sidebar-user"><div class="user-avatar">SA</div><div class="user-info"><span class="user-name">Sadid Acosta</span><span class="user-role">Administrador</span></div></div>
+      <ul class="sidebar-menu">
+        <li class="menu-label">Principal</li>
+        <li onclick="navigateTo('screen-dashboard')"><i class="fas fa-th-large"></i><span>Dashboard</span></li>
+        <li onclick="navigateTo('screen-products')"><i class="fas fa-box-open"></i><span>Productos</span></li>
+        <li onclick="navigateTo('screen-lots')"><i class="fas fa-layer-group"></i><span>Lotes</span></li>
+        <li class="menu-label">Gestión</li>
+        <li onclick="navigateTo('screen-alerts')"><i class="fas fa-bell"></i><span>Alertas</span><span class="badge badge-danger">7</span></li>
+        <li onclick="navigateTo('screen-suppliers')"><i class="fas fa-truck"></i><span>Proveedores</span></li>
+        <li onclick="navigateTo('screen-users')"><i class="fas fa-users-cog"></i><span>Usuarios</span></li>
+        <li class="menu-label">Análisis</li>
+        <li class="active" onclick="navigateTo('screen-reports')"><i class="fas fa-chart-bar"></i><span>Reportes</span></li>
+      </ul>
+    </nav>
+    <main class="main-content">
+      <header class="top-bar">
+        <div class="top-bar-left"><div class="page-title"><h1>Reportes y Auditoría</h1><p class="breadcrumb">Inicio / Reportes</p></div></div>
+        <div class="top-bar-right">
+          <button class="btn-outline"><i class="fas fa-calendar"></i> Último mes</button>
+          <button class="btn-primary"><i class="fas fa-download"></i> Exportar PDF</button>
+        </div>
+      </header>
+      <div class="content-area">
+        <!-- Report KPIs -->
+        <div class="kpi-grid">
+          <div class="kpi-card kpi-green">
+            <div class="kpi-icon"><i class="fas fa-arrow-up"></i></div>
+            <div class="kpi-data"><span class="kpi-value">2,456</span><span class="kpi-label">Entradas (mes)</span></div>
+          </div>
+          <div class="kpi-card kpi-blue">
+            <div class="kpi-icon"><i class="fas fa-arrow-down"></i></div>
+            <div class="kpi-data"><span class="kpi-value">1,892</span><span class="kpi-label">Salidas (mes)</span></div>
+          </div>
+          <div class="kpi-card kpi-red">
+            <div class="kpi-icon"><i class="fas fa-trash"></i></div>
+            <div class="kpi-data"><span class="kpi-value">47</span><span class="kpi-label">Mermas (mes)</span></div>
+          </div>
+          <div class="kpi-card kpi-orange">
+            <div class="kpi-icon"><i class="fas fa-dollar-sign"></i></div>
+            <div class="kpi-data"><span class="kpi-value">$1.2M</span><span class="kpi-label">Valor Perdido</span></div>
+          </div>
+        </div>
+        <!-- Charts -->
+        <div class="charts-row">
+          <div class="chart-card wide">
+            <div class="card-header"><h3>📊 Movimientos por Tipo</h3></div>
+            <div class="bar-chart">
+              <div class="bar-group">
+                <div class="bar-label">Entradas</div>
+                <div class="bar-track"><div class="bar-fill" style="width:85%;background:linear-gradient(90deg,#10b981,#34d399);"></div></div>
+                <span class="bar-value">2,456</span>
+              </div>
+              <div class="bar-group">
+                <div class="bar-label">Salidas</div>
+                <div class="bar-track"><div class="bar-fill" style="width:65%;background:linear-gradient(90deg,#6366f1,#818cf8);"></div></div>
+                <span class="bar-value">1,892</span>
+              </div>
+              <div class="bar-group">
+                <div class="bar-label">Ajustes</div>
+                <div class="bar-track"><div class="bar-fill" style="width:20%;background:linear-gradient(90deg,#f59e0b,#fbbf24);"></div></div>
+                <span class="bar-value">234</span>
+              </div>
+              <div class="bar-group">
+                <div class="bar-label">Mermas</div>
+                <div class="bar-track"><div class="bar-fill" style="width:8%;background:linear-gradient(90deg,#ef4444,#f87171);"></div></div>
+                <span class="bar-value">47</span>
+              </div>
+            </div>
+          </div>
+          <div class="chart-card">
+            <div class="card-header"><h3>🗑️ Top Mermas</h3></div>
+            <div class="merma-list">
+              <div class="merma-item"><span class="merma-rank">1</span><span class="merma-name">Pan Francés</span><span class="merma-val">15 unid.</span></div>
+              <div class="merma-item"><span class="merma-rank">2</span><span class="merma-name">Yogurt Natural</span><span class="merma-val">12 unid.</span></div>
+              <div class="merma-item"><span class="merma-rank">3</span><span class="merma-name">Leche Entera</span><span class="merma-val">8 litros</span></div>
+              <div class="merma-item"><span class="merma-rank">4</span><span class="merma-name">Queso Crema</span><span class="merma-val">7 unid.</span></div>
+              <div class="merma-item"><span class="merma-rank">5</span><span class="merma-name">Fresas</span><span class="merma-val">5 kg</span></div>
+            </div>
+          </div>
+        </div>
+        <!-- Audit Log -->
+        <div class="chart-card">
+          <div class="card-header"><h3>📋 Historial de Auditoría</h3><button class="btn-outline btn-sm"><i class="fas fa-filter"></i> Filtrar</button></div>
+          <table class="data-table">
+            <thead>
+              <tr><th>Fecha/Hora</th><th>Usuario</th><th>Acción</th><th>Detalle</th><th>Tipo</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>01 Mar 2026, 08:30</td>
+                <td><div class="td-user"><div class="td-avatar">SA</div>Sadid Acosta</div></td>
+                <td>Registro de Merma</td>
+                <td>5 unid. Pan Francés (Lote #L-2024-0875)</td>
+                <td><span class="status-badge critical">Merma</span></td>
+              </tr>
+              <tr>
+                <td>01 Mar 2026, 07:45</td>
+                <td><div class="td-user"><div class="td-avatar" style="background:#10b981;">JP</div>Juan Pablo</div></td>
+                <td>Entrada de Stock</td>
+                <td>50 unid. Leche Entera (Lote #L-2024-0904)</td>
+                <td><span class="status-badge ok">Entrada</span></td>
+              </tr>
+              <tr>
+                <td>28 Feb 2026, 16:20</td>
+                <td><div class="td-user"><div class="td-avatar" style="background:#f59e0b;">BZ</div>Brian Zambrano</div></td>
+                <td>Salida de Stock</td>
+                <td>10 unid. Queso Mozzarella (Lote #L-2024-0891)</td>
+                <td><span class="status-badge info">Salida</span></td>
+              </tr>
+              <tr>
+                <td>28 Feb 2026, 14:10</td>
+                <td><div class="td-user"><div class="td-avatar">SA</div>Sadid Acosta</div></td>
+                <td>Nuevo Proveedor</td>
+                <td>Registrado: Lácteos del Valle</td>
+                <td><span class="status-badge info">Sistema</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
