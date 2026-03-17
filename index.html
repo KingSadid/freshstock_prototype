@@ -47,7 +47,7 @@
           <h2>Bienvenido de vuelta</h2>
           <p>Ingresa tus credenciales para continuar</p>
         </div>
-        <form class="login-form" onsubmit="event.preventDefault(); navigateTo('screen-dashboard');">
+        <form class="login-form" >
           <div class="form-group">
             <label>Correo electrónico</label>
             <div class="input-icon">
@@ -102,7 +102,7 @@
         <li class="menu-label">Principal</li>
         <li class="active" onclick="navigateTo('screen-dashboard')"><i class="fas fa-th-large"></i><span>Dashboard</span></li>
         <li onclick="navigateTo('screen-products')"><i class="fas fa-box-open"></i><span>Productos</span><span class="badge">324</span></li>
-        <li onclick="navigateTo('screen-lots')"><i class="fas fa-layer-group"></i><span>Lotes</span></li>
+        <li ><i class="fas fa-layer-group"></i><span>Lotes</span></li>
         <li class="menu-label">Gestión</li>
         <li onclick="navigateTo('screen-alerts')"><i class="fas fa-bell"></i><span>Alertas</span><span class="badge badge-danger">7</span></li>
         <li onclick="navigateTo('screen-suppliers')"><i class="fas fa-truck"></i><span>Proveedores</span></li>
@@ -376,7 +376,7 @@
         <li class="menu-label">Principal</li>
         <li onclick="navigateTo('screen-dashboard')"><i class="fas fa-th-large"></i><span>Dashboard</span></li>
         <li class="active" onclick="navigateTo('screen-products')"><i class="fas fa-box-open"></i><span>Productos</span><span class="badge">324</span></li>
-        <li onclick="navigateTo('screen-lots')"><i class="fas fa-layer-group"></i><span>Lotes</span></li>
+        <li ><i class="fas fa-layer-group"></i><span>Lotes</span></li>
         <li class="menu-label">Gestión</li>
         <li onclick="navigateTo('screen-alerts')"><i class="fas fa-bell"></i><span>Alertas</span><span class="badge badge-danger">7</span></li>
         <li onclick="navigateTo('screen-suppliers')"><i class="fas fa-truck"></i><span>Proveedores</span></li>
@@ -435,6 +435,10 @@
                 <span class="pc-lots">3 lotes</span>
               </div>
             </div>
+              <div class="pc-quick-actions">
+                <button class="btn-primary btn-sm btn-full"><i class="fas fa-plus"></i> Añadir</button>
+                <button class="btn-outline btn-sm btn-full"><i class="fas fa-eye"></i> Lotes</button>
+              </div>
           </div>
           <div class="product-card" onclick="navigateTo('screen-product-detail')">
             <div class="pc-image" style="background: linear-gradient(135deg, #fce7f3, #fbcfe8);">
@@ -454,6 +458,10 @@
                 <span class="pc-lots">2 lotes</span>
               </div>
             </div>
+              <div class="pc-quick-actions">
+                <button class="btn-primary btn-sm btn-full"><i class="fas fa-plus"></i> Añadir</button>
+                <button class="btn-outline btn-sm btn-full"><i class="fas fa-eye"></i> Lotes</button>
+              </div>
           </div>
           <div class="product-card" onclick="navigateTo('screen-product-detail')">
             <div class="pc-image" style="background: linear-gradient(135deg, #d1fae5, #a7f3d0);">
@@ -473,6 +481,10 @@
                 <span class="pc-lots">1 lote</span>
               </div>
             </div>
+              <div class="pc-quick-actions">
+                <button class="btn-primary btn-sm btn-full"><i class="fas fa-plus"></i> Añadir</button>
+                <button class="btn-outline btn-sm btn-full"><i class="fas fa-eye"></i> Lotes</button>
+              </div>
           </div>
           <div class="product-card" onclick="navigateTo('screen-product-detail')">
             <div class="pc-image" style="background: linear-gradient(135deg, #fef3c7, #fde68a);">
@@ -492,6 +504,10 @@
                 <span class="pc-lots">1 lote</span>
               </div>
             </div>
+              <div class="pc-quick-actions">
+                <button class="btn-primary btn-sm btn-full"><i class="fas fa-plus"></i> Añadir</button>
+                <button class="btn-outline btn-sm btn-full"><i class="fas fa-eye"></i> Lotes</button>
+              </div>
           </div>
           <div class="product-card" onclick="navigateTo('screen-product-detail')">
             <div class="pc-image" style="background: linear-gradient(135deg, #ede9fe, #ddd6fe);">
@@ -511,6 +527,10 @@
                 <span class="pc-lots">2 lotes</span>
               </div>
             </div>
+              <div class="pc-quick-actions">
+                <button class="btn-primary btn-sm btn-full"><i class="fas fa-plus"></i> Añadir</button>
+                <button class="btn-outline btn-sm btn-full"><i class="fas fa-eye"></i> Lotes</button>
+              </div>
           </div>
           <div class="product-card" onclick="navigateTo('screen-product-detail')">
             <div class="pc-image" style="background: linear-gradient(135deg, #fee2e2, #fecaca);">
@@ -530,6 +550,10 @@
                 <span class="pc-lots">2 lotes</span>
               </div>
             </div>
+              <div class="pc-quick-actions">
+                <button class="btn-primary btn-sm btn-full"><i class="fas fa-plus"></i> Añadir</button>
+                <button class="btn-outline btn-sm btn-full"><i class="fas fa-eye"></i> Lotes</button>
+              </div>
           </div>
         </div>
         <div class="pagination">
@@ -549,13 +573,16 @@
 <div id="screen-product-detail" class="screen">
   <div class="app-layout">
     <nav class="sidebar">
-      <div class="sidebar-header"><div class="logo-small"><i class="fas fa-seedling"></i> <span>FreshStock</span></div></div>
+      <div class="sidebar-header">
+        <div class="logo-small"><i class="fas fa-seedling"></i> <span>FreshStock</span></div>
+        <button class="sidebar-toggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+      </div>
       <div class="sidebar-user"><div class="user-avatar">SA</div><div class="user-info"><span class="user-name">Sadid Acosta</span><span class="user-role">Administrador</span></div></div>
       <ul class="sidebar-menu">
         <li class="menu-label">Principal</li>
         <li onclick="navigateTo('screen-dashboard')"><i class="fas fa-th-large"></i><span>Dashboard</span></li>
         <li class="active" onclick="navigateTo('screen-products')"><i class="fas fa-box-open"></i><span>Productos</span></li>
-        <li onclick="navigateTo('screen-lots')"><i class="fas fa-layer-group"></i><span>Lotes</span></li>
+        <li ><i class="fas fa-layer-group"></i><span>Lotes</span></li>
         <li class="menu-label">Gestión</li>
         <li onclick="navigateTo('screen-alerts')"><i class="fas fa-bell"></i><span>Alertas</span><span class="badge badge-danger">7</span></li>
         <li onclick="navigateTo('screen-suppliers')"><i class="fas fa-truck"></i><span>Proveedores</span></li>
@@ -714,13 +741,16 @@
 <div id="screen-lot-register" class="screen">
   <div class="app-layout">
     <nav class="sidebar">
-      <div class="sidebar-header"><div class="logo-small"><i class="fas fa-seedling"></i> <span>FreshStock</span></div></div>
+      <div class="sidebar-header">
+        <div class="logo-small"><i class="fas fa-seedling"></i> <span>FreshStock</span></div>
+        <button class="sidebar-toggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+      </div>
       <div class="sidebar-user"><div class="user-avatar">SA</div><div class="user-info"><span class="user-name">Sadid Acosta</span><span class="user-role">Administrador</span></div></div>
       <ul class="sidebar-menu">
         <li class="menu-label">Principal</li>
         <li onclick="navigateTo('screen-dashboard')"><i class="fas fa-th-large"></i><span>Dashboard</span></li>
         <li onclick="navigateTo('screen-products')"><i class="fas fa-box-open"></i><span>Productos</span></li>
-        <li class="active" onclick="navigateTo('screen-lots')"><i class="fas fa-layer-group"></i><span>Lotes</span></li>
+        <li class="active" ><i class="fas fa-layer-group"></i><span>Lotes</span></li>
         <li class="menu-label">Gestión</li>
         <li onclick="navigateTo('screen-alerts')"><i class="fas fa-bell"></i><span>Alertas</span><span class="badge badge-danger">7</span></li>
         <li onclick="navigateTo('screen-suppliers')"><i class="fas fa-truck"></i><span>Proveedores</span></li>
@@ -732,7 +762,7 @@
     <main class="main-content">
       <header class="top-bar">
         <div class="top-bar-left">
-          <button class="btn-ghost" onclick="navigateTo('screen-lots')"><i class="fas fa-arrow-left"></i> Volver</button>
+          <button class="btn-ghost" ><i class="fas fa-arrow-left"></i> Volver</button>
           <div class="page-title"><h1>Registrar Nuevo Lote</h1><p class="breadcrumb">Lotes / Nuevo Registro</p></div>
         </div>
       </header>
@@ -816,7 +846,7 @@
                 </div>
                 <div class="form-actions">
                   <button type="button" class="btn-outline" onclick="navigateTo('screen-lots')">Cancelar</button>
-                  <button type="button" class="btn-primary" onclick="navigateTo('screen-lots')"><i class="fas fa-save"></i> Registrar Lote</button>
+                  <button type="button" class="btn-primary" ><i class="fas fa-save"></i> Registrar Lote</button>
                 </div>
               </form>
             </div>
@@ -854,13 +884,16 @@
 <div id="screen-lots" class="screen">
   <div class="app-layout">
     <nav class="sidebar">
-      <div class="sidebar-header"><div class="logo-small"><i class="fas fa-seedling"></i> <span>FreshStock</span></div></div>
+      <div class="sidebar-header">
+        <div class="logo-small"><i class="fas fa-seedling"></i> <span>FreshStock</span></div>
+        <button class="sidebar-toggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+      </div>
       <div class="sidebar-user"><div class="user-avatar">SA</div><div class="user-info"><span class="user-name">Sadid Acosta</span><span class="user-role">Administrador</span></div></div>
       <ul class="sidebar-menu">
         <li class="menu-label">Principal</li>
         <li onclick="navigateTo('screen-dashboard')"><i class="fas fa-th-large"></i><span>Dashboard</span></li>
         <li onclick="navigateTo('screen-products')"><i class="fas fa-box-open"></i><span>Productos</span></li>
-        <li class="active" onclick="navigateTo('screen-lots')"><i class="fas fa-layer-group"></i><span>Lotes</span></li>
+        <li class="active" ><i class="fas fa-layer-group"></i><span>Lotes</span></li>
         <li class="menu-label">Gestión</li>
         <li onclick="navigateTo('screen-alerts')"><i class="fas fa-bell"></i><span>Alertas</span><span class="badge badge-danger">7</span></li>
         <li onclick="navigateTo('screen-suppliers')"><i class="fas fa-truck"></i><span>Proveedores</span></li>
@@ -969,13 +1002,16 @@
 <div id="screen-alerts" class="screen">
   <div class="app-layout">
     <nav class="sidebar">
-      <div class="sidebar-header"><div class="logo-small"><i class="fas fa-seedling"></i> <span>FreshStock</span></div></div>
+      <div class="sidebar-header">
+        <div class="logo-small"><i class="fas fa-seedling"></i> <span>FreshStock</span></div>
+        <button class="sidebar-toggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+      </div>
       <div class="sidebar-user"><div class="user-avatar">SA</div><div class="user-info"><span class="user-name">Sadid Acosta</span><span class="user-role">Administrador</span></div></div>
       <ul class="sidebar-menu">
         <li class="menu-label">Principal</li>
         <li onclick="navigateTo('screen-dashboard')"><i class="fas fa-th-large"></i><span>Dashboard</span></li>
         <li onclick="navigateTo('screen-products')"><i class="fas fa-box-open"></i><span>Productos</span></li>
-        <li onclick="navigateTo('screen-lots')"><i class="fas fa-layer-group"></i><span>Lotes</span></li>
+        <li ><i class="fas fa-layer-group"></i><span>Lotes</span></li>
         <li class="menu-label">Gestión</li>
         <li class="active" onclick="navigateTo('screen-alerts')"><i class="fas fa-bell"></i><span>Alertas</span><span class="badge badge-danger">7</span></li>
         <li onclick="navigateTo('screen-suppliers')"><i class="fas fa-truck"></i><span>Proveedores</span></li>
@@ -1086,13 +1122,16 @@
 <div id="screen-suppliers" class="screen">
   <div class="app-layout">
     <nav class="sidebar">
-      <div class="sidebar-header"><div class="logo-small"><i class="fas fa-seedling"></i> <span>FreshStock</span></div></div>
+      <div class="sidebar-header">
+        <div class="logo-small"><i class="fas fa-seedling"></i> <span>FreshStock</span></div>
+        <button class="sidebar-toggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+      </div>
       <div class="sidebar-user"><div class="user-avatar">SA</div><div class="user-info"><span class="user-name">Sadid Acosta</span><span class="user-role">Administrador</span></div></div>
       <ul class="sidebar-menu">
         <li class="menu-label">Principal</li>
         <li onclick="navigateTo('screen-dashboard')"><i class="fas fa-th-large"></i><span>Dashboard</span></li>
         <li onclick="navigateTo('screen-products')"><i class="fas fa-box-open"></i><span>Productos</span></li>
-        <li onclick="navigateTo('screen-lots')"><i class="fas fa-layer-group"></i><span>Lotes</span></li>
+        <li ><i class="fas fa-layer-group"></i><span>Lotes</span></li>
         <li class="menu-label">Gestión</li>
         <li onclick="navigateTo('screen-alerts')"><i class="fas fa-bell"></i><span>Alertas</span><span class="badge badge-danger">7</span></li>
         <li class="active" onclick="navigateTo('screen-suppliers')"><i class="fas fa-truck"></i><span>Proveedores</span></li>
@@ -1189,13 +1228,16 @@
 <div id="screen-users" class="screen">
   <div class="app-layout">
     <nav class="sidebar">
-      <div class="sidebar-header"><div class="logo-small"><i class="fas fa-seedling"></i> <span>FreshStock</span></div></div>
+      <div class="sidebar-header">
+        <div class="logo-small"><i class="fas fa-seedling"></i> <span>FreshStock</span></div>
+        <button class="sidebar-toggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+      </div>
       <div class="sidebar-user"><div class="user-avatar">SA</div><div class="user-info"><span class="user-name">Sadid Acosta</span><span class="user-role">Administrador</span></div></div>
       <ul class="sidebar-menu">
         <li class="menu-label">Principal</li>
         <li onclick="navigateTo('screen-dashboard')"><i class="fas fa-th-large"></i><span>Dashboard</span></li>
         <li onclick="navigateTo('screen-products')"><i class="fas fa-box-open"></i><span>Productos</span></li>
-        <li onclick="navigateTo('screen-lots')"><i class="fas fa-layer-group"></i><span>Lotes</span></li>
+        <li ><i class="fas fa-layer-group"></i><span>Lotes</span></li>
         <li class="menu-label">Gestión</li>
         <li onclick="navigateTo('screen-alerts')"><i class="fas fa-bell"></i><span>Alertas</span><span class="badge badge-danger">7</span></li>
         <li onclick="navigateTo('screen-suppliers')"><i class="fas fa-truck"></i><span>Proveedores</span></li>
@@ -1280,13 +1322,16 @@
 <div id="screen-reports" class="screen">
   <div class="app-layout">
     <nav class="sidebar">
-      <div class="sidebar-header"><div class="logo-small"><i class="fas fa-seedling"></i> <span>FreshStock</span></div></div>
+      <div class="sidebar-header">
+        <div class="logo-small"><i class="fas fa-seedling"></i> <span>FreshStock</span></div>
+        <button class="sidebar-toggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+      </div>
       <div class="sidebar-user"><div class="user-avatar">SA</div><div class="user-info"><span class="user-name">Sadid Acosta</span><span class="user-role">Administrador</span></div></div>
       <ul class="sidebar-menu">
         <li class="menu-label">Principal</li>
         <li onclick="navigateTo('screen-dashboard')"><i class="fas fa-th-large"></i><span>Dashboard</span></li>
         <li onclick="navigateTo('screen-products')"><i class="fas fa-box-open"></i><span>Productos</span></li>
-        <li onclick="navigateTo('screen-lots')"><i class="fas fa-layer-group"></i><span>Lotes</span></li>
+        <li ><i class="fas fa-layer-group"></i><span>Lotes</span></li>
         <li class="menu-label">Gestión</li>
         <li onclick="navigateTo('screen-alerts')"><i class="fas fa-bell"></i><span>Alertas</span><span class="badge badge-danger">7</span></li>
         <li onclick="navigateTo('screen-suppliers')"><i class="fas fa-truck"></i><span>Proveedores</span></li>
@@ -1404,6 +1449,9 @@
     </main>
   </div>
 </div>
+
+<!-- Toast Container -->
+<div class="toast-container" id="toast-container"></div>
 
 <!-- Loading overlay -->
 <div class="loading-overlay active" id="loading-overlay">

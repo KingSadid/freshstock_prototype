@@ -579,6 +579,189 @@ function initChipInteractions() {
   });
 }
 
+
+// ─── Toast Notifications ──────────────────────────────────────
+function showToast(title, message, type = 'success', duration = 3000) {
+  const container = document.getElementById('toast-container');
+  if (!container) return;
+
+  const toast = document.createElement('div');
+  toast.className = 'toast';
+  
+  const iconMap = {
+    'success': 'fa-check-circle',
+    'warning': 'fa-exclamation-triangle',
+    'error': 'fa-times-circle',
+    'info': 'fa-info-circle'
+  };
+  const colorMap = {
+    'success': 'var(--primary)',
+    'warning': 'var(--warning)',
+    'error': 'var(--danger)',
+    'info': 'var(--info)'
+  };
+  
+  toast.innerHTML = `
+    <div class="toast-icon" style="color: ${colorMap[type]}">
+      <i class="fas ${iconMap[type]}"></i>
+    </div>
+    <div class="toast-content">
+      <div class="toast-title">${title}</div>
+      <div class="toast-msg">${message}</div>
+    </div>
+    <div class="toast-progress" style="background: ${colorMap[type]}"></div>
+  `;
+  
+  container.appendChild(toast);
+  
+  // Animate in
+  gsap.fromTo(toast, 
+    { y: 50, opacity: 0 }, 
+    { y: 0, opacity: 1, duration: 0.4, ease: 'back.out(1.5)' }
+  );
+  
+  // Progress bar
+  const progress = toast.querySelector('.toast-progress');
+  gsap.to(progress, {
+    scaleX: 0,
+    duration: duration / 1000,
+    ease: 'linear'
+  });
+  
+  // Animate out
+  setTimeout(() => {
+    gsap.to(toast, {
+      x: 100, opacity: 0, duration: 0.4, ease: 'power2.in',
+      onComplete: () => toast.remove()
+    });
+  }, duration);
+}
+
+// ─── Button Loading State ─────────────────────────────────────
+function setBtnLoading(btn, isLoading) {
+  if (isLoading) {
+    btn.classList.add('btn-loading');
+    btn.dataset.originalText = btn.innerHTML;
+  } else {
+    btn.classList.remove('btn-loading');
+  }
+}
+
+// ─── Interactive Form Elements ────────────────────────────────
+function initFormInteractions() {
+  // Password toggle
+  document.querySelectorAll('.toggle-pass').forEach(icon => {
+    icon.addEventListener('click', function() {
+      const input = this.previousElementSibling;
+      if (input.type === 'password') {
+        input.type = 'text';
+        this.classList.remove('fa-eye');
+        this.classList.add('fa-eye-slash');
+      } else {
+        input.type = 'password';
+        this.classList.remove('fa-eye-slash');
+        this.classList.add('fa-eye');
+      }
+      // 3D flip animation
+      gsap.fromTo(this, 
+        { rotateX: 180, opacity: 0 }, 
+        { rotateX: 0, opacity: 1, duration: 0.4, ease: 'back.out(2)' }
+      );
+    });
+  });
+
+  // Login form submission mock
+  const loginForm = document.querySelector('.login-form');
+  if (loginForm) {
+    loginForm.onsubmit = function(e) {
+      e.preventDefault();
+      const btn = this.querySelector('button[type="submit"]');
+      setBtnLoading(btn, true);
+      
+      setTimeout(() => {
+        setBtnLoading(btn, false);
+        // Show success briefly before navigating
+        btn.innerHTML = '<i class="fas fa-check"></i>';
+        btn.style.backgroundColor = '#10b981';
+        
+        setTimeout(() => {
+          navigateTo('screen-dashboard');
+          // Reset button for when user logs out
+          setTimeout(() => {
+            btn.innerHTML = btn.dataset.originalText;
+            btn.style.backgroundColor = '';
+          }, 1000);
+        }, 500);
+      }, 1200);
+    };
+  }
+  
+  // Lot form submission mock
+  const lotForm = document.querySelector('.lot-form');
+  if (lotForm) {
+    const btnSubmit = lotForm.querySelector('.btn-primary');
+    if (btnSubmit) {
+      btnSubmit.onclick = function(e) {
+        e.preventDefault();
+        setBtnLoading(this, true);
+        
+        setTimeout(() => {
+          setBtnLoading(this, false);
+          showToast('Lote Registrado', 'El lote L-2026-0905 ha sido guardado con éxito.', 'success');
+          navigateTo('screen-lots');
+        }, 1000);
+      };
+    }
+  }
+}
+
+// ─── Smooth Delete (Swipe Out) ────────────────────────────────
+function initDeleteInteractions() {
+  // For any button with fa-trash or fa-minus-circle
+  document.querySelectorAll('.data-table .fa-minus-circle, .data-table .fa-trash, .btn-danger-outline').forEach(icon => {
+    const btn = icon.closest('button');
+    if (!btn) return;
+    
+    // Remove old listeners if any by replacing clone
+    const newBtn = btn.cloneNode(true);
+    btn.parentNode.replaceChild(newBtn, btn);
+    
+    newBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      
+      const row = this.closest('tr') || this.closest('.alert-item') || this.closest('.merma-item');
+      if (!row) return;
+      
+      // Flash red background
+      gsap.to(row, { backgroundColor: 'rgba(239, 68, 68, 0.15)', duration: 0.2 });
+      
+      // Slide out
+      gsap.to(row, {
+        x: 100, 
+        opacity: 0, 
+        duration: 0.4, 
+        delay: 0.2,
+        ease: 'power2.in',
+        onComplete: () => {
+          // Collapse height to reflow DOM smoothly
+          gsap.to(row, {
+            height: 0, 
+            paddingTop: 0, 
+            paddingBottom: 0, 
+            border: 'none',
+            duration: 0.3,
+            onComplete: () => {
+              row.remove();
+              showToast('Elemento Eliminado', 'El registro ha sido eliminado del sistema.', 'info', 2500);
+            }
+          });
+        }
+      });
+    });
+  });
+}
+
 // ─── Initialise on DOM ready ──────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -593,9 +776,12 @@ document.addEventListener('DOMContentLoaded', () => {
   // Micro-interactions
   initKpiHover();
   initCardHover();
+        initDeleteInteractions();
   initSidebarInteractions();
   initNotifPulse();
   initChipInteractions();
+  initFormInteractions();
+  initDeleteInteractions();
 
   // Re-init hover listeners when screens become active
   const observer = new MutationObserver(mutations => {
@@ -603,6 +789,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (m.target.classList.contains('active')) {
         initKpiHover();
         initCardHover();
+        initDeleteInteractions();
       }
     });
   });
