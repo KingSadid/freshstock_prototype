@@ -36,8 +36,21 @@
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); color: var(--text); overflow: hidden; height: 100vh; }
-.screen { display: none; height: 100vh; overflow: hidden; }
-.screen.active { display: block; }
+
+/* GSAP-compatible screen switching: all screens stacked, opacity controls visibility */
+.screen {
+  position: absolute;
+  inset: 0;
+  height: 100vh;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+  will-change: opacity, transform;
+}
+.screen.active {
+  opacity: 1;
+  pointer-events: all;
+}
 
 /* ============================================
    LOGIN SCREEN
@@ -481,8 +494,37 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); c
 /* ============================================
    ANIMATIONS
    ============================================ */
-@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-.content-area > * { animation: fadeIn 0.4s ease forwards; }
-.content-area > *:nth-child(2) { animation-delay: 0.1s; }
-.content-area > *:nth-child(3) { animation-delay: 0.2s; }
-.content-area > *:nth-child(4) { animation-delay: 0.3s; }
+/* @keyframes fadeIn replaced by GSAP — see app.js */
+@keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+@keyframes scan { 0%, 100% { top: 0; } 50% { top: calc(100% - 2px); } }
+
+/* Notif dot pulse ring */
+@keyframes pulse-ring {
+  0%   { transform: scale(1);   opacity: 0.6; }
+  100% { transform: scale(2.4); opacity: 0; }
+}
+.notif-dot::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 50%;
+  background: var(--danger);
+  animation: pulse-ring 1.6s ease-out infinite;
+}
+.notif-dot { position: relative; overflow: visible; }
+
+/* Ripple base */
+.btn-primary, .btn-outline {
+  position: relative;
+  overflow: hidden;
+}
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.35);
+  transform: scale(0);
+  pointer-events: none;
+}
+.btn-outline .ripple {
+  background: rgba(16,185,129,0.2);
+}
