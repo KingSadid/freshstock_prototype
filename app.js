@@ -7,14 +7,14 @@
 let isNavigating = false;
 let currentScreenId = 'screen-login';
 
-// ─── Core navigation with GSAP overlay transition ────────────
+// ─── Core navigation with Loading animation ────────────
 function navigateTo(screenId) {
   if (isNavigating || screenId === currentScreenId) return;
   isNavigating = true;
 
   const current = document.getElementById(currentScreenId);
   const next    = document.getElementById(screenId);
-  const overlay = document.getElementById('transition-overlay');
+  const loadingOverlay = document.getElementById('loading-overlay');
   if (!next) { isNavigating = false; return; }
 
   // Highlight the matching sidebar item on the incoming screen
@@ -25,60 +25,67 @@ function navigateTo(screenId) {
     li.classList.toggle('active', target === screenId);
   });
 
-  // ── Full overlay wipe transition ──
-  const tl = gsap.timeline({
-    defaults: { ease: 'power3.inOut' },
-    onComplete: () => { isNavigating = false; }
-  });
+  // Show loading overlay
+  loadingOverlay.classList.add('active');
 
-  tl
-    // 1. Wipe IN — overlay scales up from bottom
-    .to(overlay, {
-      scaleY: 1,
-      transformOrigin: 'bottom',
-      duration: 0.35,
-      ease: 'power3.in',
-    })
-    // 2. Swap screens at the peak of the wipe
-    .add(() => {
-      current.classList.remove('active');
-      current.style.pointerEvents = 'none';
-      gsap.set(current, { opacity: 0, y: 0 });
+  // Wait for loading overlay to become fully opaque (CSS transition is 0.3s)
+  setTimeout(() => {
+    // 1. Swap screens under the overlay
+    current.classList.remove('active');
+    current.style.pointerEvents = 'none';
+    gsap.set(current, { opacity: 0, y: 0 });
 
-      next.classList.add('active');
-      next.style.pointerEvents = 'all';
-      gsap.set(next, { opacity: 1, y: 0 });
-      currentScreenId = screenId;
+    next.classList.add('active');
+    next.style.pointerEvents = 'all';
+    currentScreenId = screenId;
 
-      // Reset scroll
-      const ca = next.querySelector('.content-area');
-      if (ca) ca.scrollTop = 0;
-    })
-    // 3. Wipe OUT — overlay slides away to top
-    .to(overlay, {
-      scaleY: 0,
-      transformOrigin: 'top',
-      duration: 0.35,
-      ease: 'power3.out',
-    })
-    // 4. Once revealed, stagger content children
-    .add(() => {
-      const children = next.querySelectorAll('.content-area > *');
-      if (children.length) {
-        gsap.fromTo(children,
-          { opacity: 0, y: 26 },
-          { opacity: 1, y: 0, duration: 0.45, stagger: 0.06, ease: 'power3.out' }
-        );
-      }
-      // Sidebar items subtle entrance
-      const sideItems = next.querySelectorAll('.sidebar-menu li:not(.menu-label)');
+    // Reset scroll
+    const ca = next.querySelector('.content-area');
+    if (ca) ca.scrollTop = 0;
+
+    // 2. Hide loading overlay (begins CSS fade-out)
+    loadingOverlay.classList.remove('active');
+
+    // 3. Fade in the new screen's base layout (backgrounds, lines)
+    gsap.fromTo(next, 
+      { opacity: 0 }, 
+      { opacity: 1, duration: 0.3, ease: 'power2.inOut' }
+    );
+
+    // 4. Stagger the inner contents with a slight delay so they appear AFTER the layout is ready
+    const children = next.querySelectorAll('.content-area > *');
+    const sideItems = next.querySelectorAll('.sidebar-menu li:not(.menu-label)');
+    const topBarElements = next.querySelectorAll('.top-bar-left, .top-bar-right');
+
+    if (children.length) {
+      gsap.fromTo(children,
+        { opacity: 0, y: 26 },
+        { opacity: 1, y: 0, duration: 0.5, stagger: 0.06, ease: 'power3.out', delay: 0.15 }
+      );
+    }
+    
+    if (sideItems.length) {
       gsap.fromTo(sideItems,
         { opacity: 0, x: -12 },
-        { opacity: 1, x: 0, duration: 0.3, stagger: 0.03, ease: 'power2.out' }
+        { opacity: 1, x: 0, duration: 0.35, stagger: 0.03, ease: 'power2.out', delay: 0.15 }
       );
+    }
 
-      triggerScreenAnimations(screenId, next);
-    }, '-=0.15');
+    if (topBarElements.length) {
+      gsap.fromTo(topBarElements,
+        { opacity: 0, y: -10 },
+        { opacity: 1, y: 0, duration: 0.4, ease: 'power2.out', delay: 0.1 }
+      );
+    }
+
+    triggerScreenAnimations(screenId, next);
+
+    // Unlock navigation when animations are roughly done
+    setTimeout(() => {
+      isNavigating = false;
+    }, 800);
+
+  }, 350); // Delay matches the CSS transition time + a 50ms buffer
 }
 
 // ─── Screen-specific entrance animations ─────────────────────
@@ -473,24 +480,37 @@ function animateLoginEntrance() {
   const left  = document.querySelector('.login-left');
   const right = document.querySelector('.login-right');
 
-  const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+  // Fade in the structural backgrounds
+  gsap.fromTo(left,
+    { opacity: 0 },
+    { opacity: 1, duration: 0.5, ease: 'power2.inOut' }
+  );
+  gsap.fromTo(right,
+    { opacity: 0 },
+    { opacity: 1, duration: 0.5, ease: 'power2.inOut' }
+  );
 
-  tl
-    .fromTo(left,
-      { x: -80, opacity: 0 },
-      { x: 0, opacity: 1, duration: 0.8 }
-    )
-    .fromTo(right,
-      { x: 80, opacity: 0 },
-      { x: 0, opacity: 1, duration: 0.8 },
-      '-=0.6'
+  // Logo text and subtitle stagger
+  const heroEls = document.querySelectorAll('.logo-big h1, .hero-subtitle, .hero-features .hf');
+  gsap.fromTo(heroEls,
+    { opacity: 0, x: -20 },
+    { opacity: 1, x: 0, duration: 0.45, stagger: 0.08, ease: 'power2.out', delay: 0.15 }
+  );
+
+  // Logo icon bounce
+  const logoIcon = document.querySelector('.logo-icon-big');
+  if (logoIcon) {
+    gsap.fromTo(logoIcon,
+      { scale: 0, rotate: -45 },
+      { scale: 1, rotate: 0, duration: 0.6, ease: 'back.out(2.5)', delay: 0.1 }
     );
+  }
 
   // Float cards cascade
   const floatCards = document.querySelectorAll('.float-card');
   gsap.fromTo(floatCards,
     { scale: 0, opacity: 0 },
-    { scale: 1, opacity: 1, duration: 0.5, stagger: 0.12, ease: 'back.out(2)', delay: 0.6 }
+    { scale: 1, opacity: 1, duration: 0.5, stagger: 0.12, ease: 'back.out(2)', delay: 0.35 }
   );
 
   // Form elements stagger
@@ -499,17 +519,8 @@ function animateLoginEntrance() {
   );
   gsap.fromTo(formEls,
     { opacity: 0, y: 20 },
-    { opacity: 1, y: 0, duration: 0.4, stagger: 0.06, ease: 'power2.out', delay: 0.45 }
+    { opacity: 1, y: 0, duration: 0.45, stagger: 0.06, ease: 'power3.out', delay: 0.2 }
   );
-
-  // Logo icon bounce
-  const logoIcon = document.querySelector('.logo-icon-big');
-  if (logoIcon) {
-    gsap.fromTo(logoIcon,
-      { scale: 0, rotate: -45 },
-      { scale: 1, rotate: 0, duration: 0.6, ease: 'back.out(2.5)', delay: 0.3 }
-    );
-  }
 }
 
 // ─── Theme toggle ─────────────────────────────────────────────
@@ -518,26 +529,35 @@ function toggleTheme() {
   const btn   = document.getElementById('theme-toggle');
   const isDark = html.getAttribute('data-theme') === 'dark';
 
+  const switchTheme = () => {
+    if (isDark) {
+      html.removeAttribute('data-theme');
+      localStorage.setItem('freshstock-theme', 'light');
+    } else {
+      html.setAttribute('data-theme', 'dark');
+      localStorage.setItem('freshstock-theme', 'dark');
+    }
+  };
+
   // Animate the toggle button
   gsap.timeline()
     .to(btn, { scale: 0.7, rotate: 180, duration: 0.2, ease: 'power2.in' })
     .add(() => {
-      if (isDark) {
-        html.removeAttribute('data-theme');
-        localStorage.setItem('freshstock-theme', 'light');
+      // Modern browsers: View Transitions API for perfectly smooth cross-fade
+      if (document.startViewTransition) {
+        document.startViewTransition(switchTheme);
       } else {
-        html.setAttribute('data-theme', 'dark');
-        localStorage.setItem('freshstock-theme', 'dark');
+        // Fallback for Firefox/Safari: CSS transitions on all elements
+        html.classList.add('theme-transition');
+        switchTheme();
+        
+        // Remove the transition class after animation to restore hover speeds
+        setTimeout(() => {
+          html.classList.remove('theme-transition');
+        }, 450);
       }
     })
     .to(btn, { scale: 1, rotate: 360, duration: 0.35, ease: 'back.out(2)' });
-}
-
-function loadSavedTheme() {
-  const saved = localStorage.getItem('freshstock-theme');
-  if (saved === 'dark') {
-    document.documentElement.setAttribute('data-theme', 'dark');
-  }
 }
 
 // ─── Chip filter toggle ──────────────────────────────────────
@@ -562,12 +582,8 @@ function initChipInteractions() {
 // ─── Initialise on DOM ready ──────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
 
-  // Load saved theme preference
-  loadSavedTheme();
-
   // Set the initial active screen visible (login)
   const loginScreen = document.getElementById('screen-login');
-  gsap.set(loginScreen, { opacity: 1 });
 
   // Wire up ripple on all primary/outline buttons
   document.querySelectorAll('.btn-primary, .btn-outline').forEach(btn => {
@@ -594,8 +610,14 @@ document.addEventListener('DOMContentLoaded', () => {
     observer.observe(s, { attributes: true, attributeFilter: ['class'] });
   });
 
-  // Animate the login screen on first load
-  animateLoginEntrance();
+  // Animate the login screen on first load after a brief loading period
+  setTimeout(() => {
+    const loadingOverlay = document.getElementById('loading-overlay');
+    loadingOverlay.classList.remove('active');
+    
+    gsap.set(loginScreen, { opacity: 1 });
+    animateLoginEntrance();
+  }, 400); // Wait for initial loading spinner before showing the screen
 });
 
 // ─── Sidebar toggle ───────────────────────────────────────────
