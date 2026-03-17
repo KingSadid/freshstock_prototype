@@ -41,14 +41,23 @@ const appState = {
 };
 
 // ─── Core navigation with Loading animation ────────────
-function navigateTo(screenId) {
+function navigateTo(screenId, element) {
   if (appState.isNavigating || screenId === appState.currentScreenId) return;
   appState.isNavigating = true;
 
   const current = document.getElementById(appState.currentScreenId);
   const next    = document.getElementById(screenId);
   const loadingOverlay = document.getElementById('loading-overlay');
-  if (!next) { isNavigating = false; return; }
+  
+  if (!next) { appState.isNavigating = false; return; }
+
+  // Shared Element Transition: Capture State
+  let state;
+  let sharedElement;
+  if (element && element.classList.contains('product-card')) {
+    sharedElement = element;
+    state = Flip.getState(sharedElement);
+  }
 
   // Highlight the matching sidebar item on the incoming screen
   next.querySelectorAll('.sidebar-menu li:not(.menu-label)').forEach(li => {
@@ -70,11 +79,25 @@ function navigateTo(screenId) {
 
     next.classList.add('active');
     next.style.pointerEvents = 'all';
-    currentScreenId = screenId;
+    appState.currentScreenId = screenId;
 
     // Reset scroll
     const ca = next.querySelector('.content-area');
     if (ca) ca.scrollTop = 0;
+
+    // Shared Element Transition: Apply State
+    if (state) {
+      // Find the corresponding element in the next screen (simplification: target first detail card)
+      const targetElement = next.querySelector('.detail-card'); 
+      if (targetElement) {
+        Flip.from(state, {
+          targets: targetElement,
+          duration: ANIMATION.SLOWEST,
+          ease: ANIMATION.EASE_POWER3_OUT,
+          absolute: true
+        });
+      }
+    }
 
     // 2. Hide loading overlay (begins CSS fade-out)
     loadingOverlay.classList.remove('active');
@@ -86,7 +109,7 @@ function navigateTo(screenId) {
     );
 
     // 4. Stagger the inner contents with a slight delay so they appear AFTER the layout is ready
-    const children = next.querySelectorAll('.content-area > *');
+    const children = next.querySelectorAll('.content-area > *:not(.detail-card)');
     const sideItems = next.querySelectorAll('.sidebar-menu li:not(.menu-label)');
     const topBarElements = next.querySelectorAll('.top-bar-left, .top-bar-right');
 
@@ -115,7 +138,7 @@ function navigateTo(screenId) {
 
     // Unlock navigation when animations are roughly done
     setTimeout(() => {
-      isNavigating = false;
+      appState.isNavigating = false;
     }, 800);
 
   }, 350); // Delay matches the CSS transition time + a 50ms buffer
@@ -918,7 +941,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const navElement = e.target.closest('[data-navigate]');
     if (navElement) {
       const screenId = navElement.getAttribute('data-navigate');
-      navigateTo(screenId);
+      navigateTo(screenId, navElement);
       return;
     }
 
