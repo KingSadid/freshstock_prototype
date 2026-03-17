@@ -17,7 +17,7 @@
 <body>
 <!-- ==================== LOGIN SCREEN ==================== -->
 <div id="screen-login" class="screen active">
-  <button class="icon-btn theme-toggle-btn login-theme-btn" onclick="toggleTheme(event)"><i class="fas fa-moon"></i><i class="fas fa-sun"></i></button>
+  <button class="icon-btn theme-toggle-btn login-theme-btn" data-action="toggle-theme"><i class="fas fa-moon"></i><i class="fas fa-sun"></i></button>
 <div class="login-container">
     <div class="login-left">
       <div class="login-brand-area">
@@ -90,7 +90,7 @@
     <nav class="sidebar" id="sidebar">
       <div class="sidebar-header">
         <div class="logo-small"><i class="fas fa-seedling"></i> <span>FreshStock</span></div>
-        <button class="sidebar-toggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+        <button class="sidebar-toggle" data-action="toggle-sidebar"><i class="fas fa-bars"></i></button>
       </div>
       <div class="sidebar-user">
         <div class="user-avatar">SA</div>
@@ -101,36 +101,36 @@
       </div>
       <ul class="sidebar-menu">
         <li class="menu-label">Principal</li>
-        <li class="active" onclick="navigateTo('screen-dashboard')"><i class="fas fa-th-large"></i><span>Dashboard</span></li>
-        <li onclick="navigateTo('screen-products')"><i class="fas fa-box-open"></i><span>Productos</span><span class="badge">324</span></li>
-        <li onclick="navigateTo('screen-lots')"><i class="fas fa-layer-group"></i><span>Lotes</span></li>
+        <li class="active" data-navigate="screen-dashboard"><i class="fas fa-th-large"></i><span>Dashboard</span></li>
+        <li data-navigate="screen-products"><i class="fas fa-box-open"></i><span>Productos</span><span class="badge">324</span></li>
+        <li data-navigate="screen-lots"><i class="fas fa-layer-group"></i><span>Lotes</span></li>
         <li class="menu-label">Gestión</li>
-        <li onclick="navigateTo('screen-alerts')"><i class="fas fa-bell"></i><span>Alertas</span><span class="badge badge-danger">7</span></li>
-        <li onclick="navigateTo('screen-suppliers')"><i class="fas fa-truck"></i><span>Proveedores</span></li>
-        <li onclick="navigateTo('screen-users')"><i class="fas fa-users-cog"></i><span>Usuarios</span></li>
+        <li data-navigate="screen-alerts"><i class="fas fa-bell"></i><span>Alertas</span><span class="badge badge-danger">7</span></li>
+        <li data-navigate="screen-suppliers"><i class="fas fa-truck"></i><span>Proveedores</span></li>
+        <li data-navigate="screen-users"><i class="fas fa-users-cog"></i><span>Usuarios</span></li>
         <li class="menu-label">Análisis</li>
-        <li onclick="navigateTo('screen-reports')"><i class="fas fa-chart-bar"></i><span>Reportes</span></li>
+        <li data-navigate="screen-reports"><i class="fas fa-chart-bar"></i><span>Reportes</span></li>
       </ul>
       <div class="sidebar-footer">
-        <div class="sidebar-footer-item" onclick="navigateTo('screen-login')"><i class="fas fa-sign-out-alt"></i><span>Cerrar Sesión</span></div>
+        <div class="sidebar-footer-item" data-navigate="screen-login"><i class="fas fa-sign-out-alt"></i><span>Cerrar Sesión</span></div>
       </div>
     </nav>
     <main class="main-content" id="main-dashboard">
       <header class="top-bar">
         <div class="top-bar-left">
-          <button class="mobile-menu" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+          <button class="mobile-menu" data-action="toggle-sidebar"><i class="fas fa-bars"></i></button>
           <div class="page-title">
             <h1>Dashboard</h1>
             <p class="breadcrumb">Inicio / Vista General</p>
           </div>
         </div>
         <div class="top-bar-right">
-          <button class="icon-btn theme-toggle-btn" onclick="toggleTheme(event)"><i class="fas fa-moon"></i><i class="fas fa-sun"></i></button>
+          <button class="icon-btn theme-toggle-btn" data-action="toggle-theme"><i class="fas fa-moon"></i><i class="fas fa-sun"></i></button>
           <div class="search-bar">
             <i class="fas fa-search"></i>
             <input type="text" placeholder="Buscar productos, lotes...">
           </div>
-          <button class="icon-btn" onclick="navigateTo('screen-alerts')"><i class="fas fa-bell"></i><span class="notif-dot"></span></button>
+          <button class="icon-btn" data-navigate="screen-alerts"><i class="fas fa-bell"></i><span class="notif-dot"></span></button>
           <div class="user-menu">
             <div class="user-avatar-sm">SA</div>
           </div>
@@ -142,7 +142,7 @@
           <div class="wb-text">
             <h2>¡Buenos días, Sadid! 👋</h2>
             <p>Tienes <strong>7 alertas</strong> pendientes y <strong>3 productos</strong> próximos a vencer hoy.</p>
-            <button class="btn-primary btn-sm" onclick="navigateTo('screen-alerts')">Ver Alertas <i class="fas fa-arrow-right"></i></button>
+            <button class="btn-primary btn-sm" data-navigate="screen-alerts">Ver Alertas <i class="fas fa-arrow-right"></i></button>
           </div>
           <div class="wb-illustration">
             <i class="fas fa-chart-pie"></i>
@@ -259,7 +259,7 @@
           <div class="chart-card">
             <div class="card-header">
               <h3>⚠️ Próximos a Vencer</h3>
-              <a href="#" onclick="navigateTo('screen-alerts')">Ver todos</a>
+              <a href="#" data-navigate="screen-alerts">Ver todos</a>
             </div>
             <div class="expiry-list">
               <div class="expiry-item critical">
@@ -317,7 +317,7 @@
           <div class="chart-card">
             <div class="card-header">
               <h3>📋 Actividad Reciente</h3>
-              <a href="#" onclick="navigateTo('screen-reports')">Ver historial</a>
+              <a href="#" data-navigate="screen-reports">Ver historial</a>
             </div>
             <div class="activity-list">
               <div class="activity-item">
@@ -369,7 +369,7 @@
     <nav class="sidebar" id="sidebar2">
       <div class="sidebar-header">
         <div class="logo-small"><i class="fas fa-seedling"></i> <span>FreshStock</span></div>
-        <button class="sidebar-toggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+        <button class="sidebar-toggle" data-action="toggle-sidebar"><i class="fas fa-bars"></i></button>
       </div>
       <div class="sidebar-user">
         <div class="user-avatar">SA</div>
@@ -377,18 +377,18 @@
       </div>
       <ul class="sidebar-menu">
         <li class="menu-label">Principal</li>
-        <li onclick="navigateTo('screen-dashboard')"><i class="fas fa-th-large"></i><span>Dashboard</span></li>
-        <li class="active" onclick="navigateTo('screen-products')"><i class="fas fa-box-open"></i><span>Productos</span><span class="badge">324</span></li>
-        <li onclick="navigateTo('screen-lots')"><i class="fas fa-layer-group"></i><span>Lotes</span></li>
+        <li data-navigate="screen-dashboard"><i class="fas fa-th-large"></i><span>Dashboard</span></li>
+        <li class="active" data-navigate="screen-products"><i class="fas fa-box-open"></i><span>Productos</span><span class="badge">324</span></li>
+        <li data-navigate="screen-lots"><i class="fas fa-layer-group"></i><span>Lotes</span></li>
         <li class="menu-label">Gestión</li>
-        <li onclick="navigateTo('screen-alerts')"><i class="fas fa-bell"></i><span>Alertas</span><span class="badge badge-danger">7</span></li>
-        <li onclick="navigateTo('screen-suppliers')"><i class="fas fa-truck"></i><span>Proveedores</span></li>
-        <li onclick="navigateTo('screen-users')"><i class="fas fa-users-cog"></i><span>Usuarios</span></li>
+        <li data-navigate="screen-alerts"><i class="fas fa-bell"></i><span>Alertas</span><span class="badge badge-danger">7</span></li>
+        <li data-navigate="screen-suppliers"><i class="fas fa-truck"></i><span>Proveedores</span></li>
+        <li data-navigate="screen-users"><i class="fas fa-users-cog"></i><span>Usuarios</span></li>
         <li class="menu-label">Análisis</li>
-        <li onclick="navigateTo('screen-reports')"><i class="fas fa-chart-bar"></i><span>Reportes</span></li>
+        <li data-navigate="screen-reports"><i class="fas fa-chart-bar"></i><span>Reportes</span></li>
       </ul>
       <div class="sidebar-footer">
-        <div class="sidebar-footer-item" onclick="navigateTo('screen-login')"><i class="fas fa-sign-out-alt"></i><span>Cerrar Sesión</span></div>
+        <div class="sidebar-footer-item" data-navigate="screen-login"><i class="fas fa-sign-out-alt"></i><span>Cerrar Sesión</span></div>
       </div>
     </nav>
     <main class="main-content">
@@ -397,9 +397,9 @@
           <div class="page-title"><h1>Catálogo de Productos</h1><p class="breadcrumb">Inicio / Productos</p></div>
         </div>
         <div class="top-bar-right">
-          <button class="icon-btn theme-toggle-btn" onclick="toggleTheme(event)"><i class="fas fa-moon"></i><i class="fas fa-sun"></i></button>
+          <button class="icon-btn theme-toggle-btn" data-action="toggle-theme"><i class="fas fa-moon"></i><i class="fas fa-sun"></i></button>
           <div class="search-bar"><i class="fas fa-search"></i><input type="text" placeholder="Buscar productos..."></div>
-          <button class="icon-btn" onclick="navigateTo('screen-alerts')"><i class="fas fa-bell"></i><span class="notif-dot"></span></button>
+          <button class="icon-btn" data-navigate="screen-alerts"><i class="fas fa-bell"></i><span class="notif-dot"></span></button>
         </div>
       </header>
       <div class="content-area">
@@ -416,12 +416,12 @@
           <div class="filters-right">
             <button class="btn-outline"><i class="fas fa-filter"></i> Filtros</button>
             <button class="btn-outline"><i class="fas fa-sort-amount-down"></i> Ordenar</button>
-            <button class="btn-primary" onclick="openNewProductPanel()"><i class="fas fa-plus"></i> Nuevo Producto</button>
+            <button class="btn-primary" data-action="open-new-product"><i class="fas fa-plus"></i> Nuevo Producto</button>
           </div>
         </div>
         <!-- Product Grid -->
         <div class="product-grid">
-          <div class="product-card" onclick="navigateTo('screen-product-detail')">
+          <div class="product-card" data-navigate="screen-product-detail">
             <div class="pc-image" style="background: linear-gradient(135deg, #dbeafe, #bfdbfe);">
               <i class="fas fa-cheese" style="color:#3b82f6;font-size:2.5rem;"></i>
               <span class="pc-badge ok">En Stock</span>
@@ -444,7 +444,7 @@
                 <button class="btn-outline btn-sm btn-full"><i class="fas fa-eye"></i> Lotes</button>
               </div>
           </div>
-          <div class="product-card" onclick="navigateTo('screen-product-detail')">
+          <div class="product-card" data-navigate="screen-product-detail">
             <div class="pc-image" style="background: linear-gradient(135deg, #fce7f3, #fbcfe8);">
               <i class="fas fa-drumstick-bite" style="color:#ec4899;font-size:2.5rem;"></i>
               <span class="pc-badge warning">Stock Bajo</span>
@@ -467,7 +467,7 @@
                 <button class="btn-outline btn-sm btn-full"><i class="fas fa-eye"></i> Lotes</button>
               </div>
           </div>
-          <div class="product-card" onclick="navigateTo('screen-product-detail')">
+          <div class="product-card" data-navigate="screen-product-detail">
             <div class="pc-image" style="background: linear-gradient(135deg, #d1fae5, #a7f3d0);">
               <i class="fas fa-apple-alt" style="color:#10b981;font-size:2.5rem;"></i>
               <span class="pc-badge ok">En Stock</span>
@@ -490,7 +490,7 @@
                 <button class="btn-outline btn-sm btn-full"><i class="fas fa-eye"></i> Lotes</button>
               </div>
           </div>
-          <div class="product-card" onclick="navigateTo('screen-product-detail')">
+          <div class="product-card" data-navigate="screen-product-detail">
             <div class="pc-image" style="background: linear-gradient(135deg, #fef3c7, #fde68a);">
               <i class="fas fa-bread-slice" style="color:#f59e0b;font-size:2.5rem;"></i>
               <span class="pc-badge danger">Crítico</span>
@@ -513,7 +513,7 @@
                 <button class="btn-outline btn-sm btn-full"><i class="fas fa-eye"></i> Lotes</button>
               </div>
           </div>
-          <div class="product-card" onclick="navigateTo('screen-product-detail')">
+          <div class="product-card" data-navigate="screen-product-detail">
             <div class="pc-image" style="background: linear-gradient(135deg, #ede9fe, #ddd6fe);">
               <i class="fas fa-wine-bottle" style="color:#8b5cf6;font-size:2.5rem;"></i>
               <span class="pc-badge ok">En Stock</span>
@@ -536,7 +536,7 @@
                 <button class="btn-outline btn-sm btn-full"><i class="fas fa-eye"></i> Lotes</button>
               </div>
           </div>
-          <div class="product-card" onclick="navigateTo('screen-product-detail')">
+          <div class="product-card" data-navigate="screen-product-detail">
             <div class="pc-image" style="background: linear-gradient(135deg, #fee2e2, #fecaca);">
               <i class="fas fa-fish" style="color:#ef4444;font-size:2.5rem;"></i>
               <span class="pc-badge warning">Stock Bajo</span>
@@ -579,30 +579,30 @@
     <nav class="sidebar">
       <div class="sidebar-header">
         <div class="logo-small"><i class="fas fa-seedling"></i> <span>FreshStock</span></div>
-        <button class="sidebar-toggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+        <button class="sidebar-toggle" data-action="toggle-sidebar"><i class="fas fa-bars"></i></button>
       </div>
       <div class="sidebar-user"><div class="user-avatar">SA</div><div class="user-info"><span class="user-name">Sadid Acosta</span><span class="user-role">Administrador</span></div></div>
       <ul class="sidebar-menu">
         <li class="menu-label">Principal</li>
-        <li onclick="navigateTo('screen-dashboard')"><i class="fas fa-th-large"></i><span>Dashboard</span></li>
-        <li class="active" onclick="navigateTo('screen-products')"><i class="fas fa-box-open"></i><span>Productos</span></li>
-        <li onclick="navigateTo('screen-lots')"><i class="fas fa-layer-group"></i><span>Lotes</span></li>
+        <li data-navigate="screen-dashboard"><i class="fas fa-th-large"></i><span>Dashboard</span></li>
+        <li class="active" data-navigate="screen-products"><i class="fas fa-box-open"></i><span>Productos</span></li>
+        <li data-navigate="screen-lots"><i class="fas fa-layer-group"></i><span>Lotes</span></li>
         <li class="menu-label">Gestión</li>
-        <li onclick="navigateTo('screen-alerts')"><i class="fas fa-bell"></i><span>Alertas</span><span class="badge badge-danger">7</span></li>
-        <li onclick="navigateTo('screen-suppliers')"><i class="fas fa-truck"></i><span>Proveedores</span></li>
-        <li onclick="navigateTo('screen-users')"><i class="fas fa-users-cog"></i><span>Usuarios</span></li>
+        <li data-navigate="screen-alerts"><i class="fas fa-bell"></i><span>Alertas</span><span class="badge badge-danger">7</span></li>
+        <li data-navigate="screen-suppliers"><i class="fas fa-truck"></i><span>Proveedores</span></li>
+        <li data-navigate="screen-users"><i class="fas fa-users-cog"></i><span>Usuarios</span></li>
         <li class="menu-label">Análisis</li>
-        <li onclick="navigateTo('screen-reports')"><i class="fas fa-chart-bar"></i><span>Reportes</span></li>
+        <li data-navigate="screen-reports"><i class="fas fa-chart-bar"></i><span>Reportes</span></li>
       </ul>
     </nav>
     <main class="main-content">
       <header class="top-bar">
         <div class="top-bar-left">
-          <button class="btn-ghost" onclick="navigateTo('screen-products')"><i class="fas fa-arrow-left"></i> Volver</button>
+          <button class="btn-ghost" data-navigate="screen-products"><i class="fas fa-arrow-left"></i> Volver</button>
           <div class="page-title"><h1>Detalle de Producto</h1><p class="breadcrumb">Productos / Queso Mozzarella</p></div>
         </div>
         <div class="top-bar-right">
-          <button class="icon-btn theme-toggle-btn" onclick="toggleTheme(event)"><i class="fas fa-moon"></i><i class="fas fa-sun"></i></button>
+          <button class="icon-btn theme-toggle-btn" data-action="toggle-theme"><i class="fas fa-moon"></i><i class="fas fa-sun"></i></button>
           <button class="btn-outline"><i class="fas fa-edit"></i> Editar</button>
           <button class="btn-danger-outline"><i class="fas fa-trash"></i> Eliminar</button>
         </div>
@@ -630,7 +630,7 @@
             <div class="chart-card">
               <div class="card-header">
                 <h3>📦 Lotes Activos (PEPS)</h3>
-                <button class="btn-primary btn-sm" onclick="navigateTo('screen-lot-register')"><i class="fas fa-plus"></i> Nuevo Lote</button>
+                <button class="btn-primary btn-sm" data-navigate="screen-lot-register"><i class="fas fa-plus"></i> Nuevo Lote</button>
               </div>
               <table class="data-table">
                 <thead>
@@ -748,26 +748,26 @@
     <nav class="sidebar">
       <div class="sidebar-header">
         <div class="logo-small"><i class="fas fa-seedling"></i> <span>FreshStock</span></div>
-        <button class="sidebar-toggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+        <button class="sidebar-toggle" data-action="toggle-sidebar"><i class="fas fa-bars"></i></button>
       </div>
       <div class="sidebar-user"><div class="user-avatar">SA</div><div class="user-info"><span class="user-name">Sadid Acosta</span><span class="user-role">Administrador</span></div></div>
       <ul class="sidebar-menu">
         <li class="menu-label">Principal</li>
-        <li onclick="navigateTo('screen-dashboard')"><i class="fas fa-th-large"></i><span>Dashboard</span></li>
-        <li onclick="navigateTo('screen-products')"><i class="fas fa-box-open"></i><span>Productos</span></li>
-        <li class="active" onclick="navigateTo('screen-lots')"><i class="fas fa-layer-group"></i><span>Lotes</span></li>
+        <li data-navigate="screen-dashboard"><i class="fas fa-th-large"></i><span>Dashboard</span></li>
+        <li data-navigate="screen-products"><i class="fas fa-box-open"></i><span>Productos</span></li>
+        <li class="active" data-navigate="screen-lots"><i class="fas fa-layer-group"></i><span>Lotes</span></li>
         <li class="menu-label">Gestión</li>
-        <li onclick="navigateTo('screen-alerts')"><i class="fas fa-bell"></i><span>Alertas</span><span class="badge badge-danger">7</span></li>
-        <li onclick="navigateTo('screen-suppliers')"><i class="fas fa-truck"></i><span>Proveedores</span></li>
-        <li onclick="navigateTo('screen-users')"><i class="fas fa-users-cog"></i><span>Usuarios</span></li>
+        <li data-navigate="screen-alerts"><i class="fas fa-bell"></i><span>Alertas</span><span class="badge badge-danger">7</span></li>
+        <li data-navigate="screen-suppliers"><i class="fas fa-truck"></i><span>Proveedores</span></li>
+        <li data-navigate="screen-users"><i class="fas fa-users-cog"></i><span>Usuarios</span></li>
         <li class="menu-label">Análisis</li>
-        <li onclick="navigateTo('screen-reports')"><i class="fas fa-chart-bar"></i><span>Reportes</span></li>
+        <li data-navigate="screen-reports"><i class="fas fa-chart-bar"></i><span>Reportes</span></li>
       </ul>
     </nav>
     <main class="main-content">
       <header class="top-bar">
         <div class="top-bar-left">
-          <button class="btn-ghost" onclick="navigateTo('screen-lots')"><i class="fas fa-arrow-left"></i> Volver</button>
+          <button class="btn-ghost" data-navigate="screen-lots"><i class="fas fa-arrow-left"></i> Volver</button>
           <div class="page-title"><h1>Registrar Nuevo Lote</h1><p class="breadcrumb">Lotes / Nuevo Registro</p></div>
         </div>
       </header>
@@ -850,7 +850,7 @@
                   <textarea placeholder="Observaciones adicionales..." rows="3">Lote recibido en buenas condiciones. Temperatura de transporte: 4°C</textarea>
                 </div>
                 <div class="form-actions">
-                  <button type="button" class="btn-outline" onclick="navigateTo('screen-lots')">Cancelar</button>
+                  <button type="button" class="btn-outline" data-navigate="screen-lots">Cancelar</button>
                   <button type="button" class="btn-primary" ><i class="fas fa-save"></i> Registrar Lote</button>
                 </div>
               </form>
@@ -891,29 +891,29 @@
     <nav class="sidebar">
       <div class="sidebar-header">
         <div class="logo-small"><i class="fas fa-seedling"></i> <span>FreshStock</span></div>
-        <button class="sidebar-toggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+        <button class="sidebar-toggle" data-action="toggle-sidebar"><i class="fas fa-bars"></i></button>
       </div>
       <div class="sidebar-user"><div class="user-avatar">SA</div><div class="user-info"><span class="user-name">Sadid Acosta</span><span class="user-role">Administrador</span></div></div>
       <ul class="sidebar-menu">
         <li class="menu-label">Principal</li>
-        <li onclick="navigateTo('screen-dashboard')"><i class="fas fa-th-large"></i><span>Dashboard</span></li>
-        <li onclick="navigateTo('screen-products')"><i class="fas fa-box-open"></i><span>Productos</span></li>
-        <li class="active" onclick="navigateTo('screen-lots')"><i class="fas fa-layer-group"></i><span>Lotes</span></li>
+        <li data-navigate="screen-dashboard"><i class="fas fa-th-large"></i><span>Dashboard</span></li>
+        <li data-navigate="screen-products"><i class="fas fa-box-open"></i><span>Productos</span></li>
+        <li class="active" data-navigate="screen-lots"><i class="fas fa-layer-group"></i><span>Lotes</span></li>
         <li class="menu-label">Gestión</li>
-        <li onclick="navigateTo('screen-alerts')"><i class="fas fa-bell"></i><span>Alertas</span><span class="badge badge-danger">7</span></li>
-        <li onclick="navigateTo('screen-suppliers')"><i class="fas fa-truck"></i><span>Proveedores</span></li>
-        <li onclick="navigateTo('screen-users')"><i class="fas fa-users-cog"></i><span>Usuarios</span></li>
+        <li data-navigate="screen-alerts"><i class="fas fa-bell"></i><span>Alertas</span><span class="badge badge-danger">7</span></li>
+        <li data-navigate="screen-suppliers"><i class="fas fa-truck"></i><span>Proveedores</span></li>
+        <li data-navigate="screen-users"><i class="fas fa-users-cog"></i><span>Usuarios</span></li>
         <li class="menu-label">Análisis</li>
-        <li onclick="navigateTo('screen-reports')"><i class="fas fa-chart-bar"></i><span>Reportes</span></li>
+        <li data-navigate="screen-reports"><i class="fas fa-chart-bar"></i><span>Reportes</span></li>
       </ul>
     </nav>
     <main class="main-content">
       <header class="top-bar">
         <div class="top-bar-left"><div class="page-title"><h1>Gestión de Lotes</h1><p class="breadcrumb">Inicio / Lotes / Vista PEPS</p></div></div>
         <div class="top-bar-right">
-          <button class="icon-btn theme-toggle-btn" onclick="toggleTheme(event)"><i class="fas fa-moon"></i><i class="fas fa-sun"></i></button>
+          <button class="icon-btn theme-toggle-btn" data-action="toggle-theme"><i class="fas fa-moon"></i><i class="fas fa-sun"></i></button>
           <div class="search-bar"><i class="fas fa-search"></i><input type="text" placeholder="Buscar lotes..."></div>
-          <button class="btn-primary" onclick="navigateTo('screen-lot-register')"><i class="fas fa-plus"></i> Nuevo Lote</button>
+          <button class="btn-primary" data-navigate="screen-lot-register"><i class="fas fa-plus"></i> Nuevo Lote</button>
         </div>
       </header>
       <div class="content-area">
@@ -1010,27 +1010,27 @@
     <nav class="sidebar">
       <div class="sidebar-header">
         <div class="logo-small"><i class="fas fa-seedling"></i> <span>FreshStock</span></div>
-        <button class="sidebar-toggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+        <button class="sidebar-toggle" data-action="toggle-sidebar"><i class="fas fa-bars"></i></button>
       </div>
       <div class="sidebar-user"><div class="user-avatar">SA</div><div class="user-info"><span class="user-name">Sadid Acosta</span><span class="user-role">Administrador</span></div></div>
       <ul class="sidebar-menu">
         <li class="menu-label">Principal</li>
-        <li onclick="navigateTo('screen-dashboard')"><i class="fas fa-th-large"></i><span>Dashboard</span></li>
-        <li onclick="navigateTo('screen-products')"><i class="fas fa-box-open"></i><span>Productos</span></li>
-        <li onclick="navigateTo('screen-lots')"><i class="fas fa-layer-group"></i><span>Lotes</span></li>
+        <li data-navigate="screen-dashboard"><i class="fas fa-th-large"></i><span>Dashboard</span></li>
+        <li data-navigate="screen-products"><i class="fas fa-box-open"></i><span>Productos</span></li>
+        <li data-navigate="screen-lots"><i class="fas fa-layer-group"></i><span>Lotes</span></li>
         <li class="menu-label">Gestión</li>
-        <li class="active" onclick="navigateTo('screen-alerts')"><i class="fas fa-bell"></i><span>Alertas</span><span class="badge badge-danger">7</span></li>
-        <li onclick="navigateTo('screen-suppliers')"><i class="fas fa-truck"></i><span>Proveedores</span></li>
-        <li onclick="navigateTo('screen-users')"><i class="fas fa-users-cog"></i><span>Usuarios</span></li>
+        <li class="active" data-navigate="screen-alerts"><i class="fas fa-bell"></i><span>Alertas</span><span class="badge badge-danger">7</span></li>
+        <li data-navigate="screen-suppliers"><i class="fas fa-truck"></i><span>Proveedores</span></li>
+        <li data-navigate="screen-users"><i class="fas fa-users-cog"></i><span>Usuarios</span></li>
         <li class="menu-label">Análisis</li>
-        <li onclick="navigateTo('screen-reports')"><i class="fas fa-chart-bar"></i><span>Reportes</span></li>
+        <li data-navigate="screen-reports"><i class="fas fa-chart-bar"></i><span>Reportes</span></li>
       </ul>
     </nav>
     <main class="main-content">
       <header class="top-bar">
         <div class="top-bar-left"><div class="page-title"><h1>Centro de Alertas</h1><p class="breadcrumb">Inicio / Alertas</p></div></div>
         <div class="top-bar-right">
-          <button class="icon-btn theme-toggle-btn" onclick="toggleTheme(event)"><i class="fas fa-moon"></i><i class="fas fa-sun"></i></button>
+          <button class="icon-btn theme-toggle-btn" data-action="toggle-theme"><i class="fas fa-moon"></i><i class="fas fa-sun"></i></button>
           <button class="btn-outline"><i class="fas fa-check-double"></i> Marcar todas como leídas</button>
           <button class="btn-outline"><i class="fas fa-cog"></i> Configurar</button>
         </div>
@@ -1131,27 +1131,27 @@
     <nav class="sidebar">
       <div class="sidebar-header">
         <div class="logo-small"><i class="fas fa-seedling"></i> <span>FreshStock</span></div>
-        <button class="sidebar-toggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+        <button class="sidebar-toggle" data-action="toggle-sidebar"><i class="fas fa-bars"></i></button>
       </div>
       <div class="sidebar-user"><div class="user-avatar">SA</div><div class="user-info"><span class="user-name">Sadid Acosta</span><span class="user-role">Administrador</span></div></div>
       <ul class="sidebar-menu">
         <li class="menu-label">Principal</li>
-        <li onclick="navigateTo('screen-dashboard')"><i class="fas fa-th-large"></i><span>Dashboard</span></li>
-        <li onclick="navigateTo('screen-products')"><i class="fas fa-box-open"></i><span>Productos</span></li>
-        <li onclick="navigateTo('screen-lots')"><i class="fas fa-layer-group"></i><span>Lotes</span></li>
+        <li data-navigate="screen-dashboard"><i class="fas fa-th-large"></i><span>Dashboard</span></li>
+        <li data-navigate="screen-products"><i class="fas fa-box-open"></i><span>Productos</span></li>
+        <li data-navigate="screen-lots"><i class="fas fa-layer-group"></i><span>Lotes</span></li>
         <li class="menu-label">Gestión</li>
-        <li onclick="navigateTo('screen-alerts')"><i class="fas fa-bell"></i><span>Alertas</span><span class="badge badge-danger">7</span></li>
-        <li class="active" onclick="navigateTo('screen-suppliers')"><i class="fas fa-truck"></i><span>Proveedores</span></li>
-        <li onclick="navigateTo('screen-users')"><i class="fas fa-users-cog"></i><span>Usuarios</span></li>
+        <li data-navigate="screen-alerts"><i class="fas fa-bell"></i><span>Alertas</span><span class="badge badge-danger">7</span></li>
+        <li class="active" data-navigate="screen-suppliers"><i class="fas fa-truck"></i><span>Proveedores</span></li>
+        <li data-navigate="screen-users"><i class="fas fa-users-cog"></i><span>Usuarios</span></li>
         <li class="menu-label">Análisis</li>
-        <li onclick="navigateTo('screen-reports')"><i class="fas fa-chart-bar"></i><span>Reportes</span></li>
+        <li data-navigate="screen-reports"><i class="fas fa-chart-bar"></i><span>Reportes</span></li>
       </ul>
     </nav>
     <main class="main-content">
       <header class="top-bar">
         <div class="top-bar-left"><div class="page-title"><h1>Gestión de Proveedores</h1><p class="breadcrumb">Inicio / Proveedores</p></div></div>
         <div class="top-bar-right">
-          <button class="icon-btn theme-toggle-btn" onclick="toggleTheme(event)"><i class="fas fa-moon"></i><i class="fas fa-sun"></i></button>
+          <button class="icon-btn theme-toggle-btn" data-action="toggle-theme"><i class="fas fa-moon"></i><i class="fas fa-sun"></i></button>
           <div class="search-bar"><i class="fas fa-search"></i><input type="text" placeholder="Buscar proveedores..."></div>
           <button class="btn-primary"><i class="fas fa-plus"></i> Nuevo Proveedor</button>
         </div>
@@ -1238,27 +1238,27 @@
     <nav class="sidebar">
       <div class="sidebar-header">
         <div class="logo-small"><i class="fas fa-seedling"></i> <span>FreshStock</span></div>
-        <button class="sidebar-toggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+        <button class="sidebar-toggle" data-action="toggle-sidebar"><i class="fas fa-bars"></i></button>
       </div>
       <div class="sidebar-user"><div class="user-avatar">SA</div><div class="user-info"><span class="user-name">Sadid Acosta</span><span class="user-role">Administrador</span></div></div>
       <ul class="sidebar-menu">
         <li class="menu-label">Principal</li>
-        <li onclick="navigateTo('screen-dashboard')"><i class="fas fa-th-large"></i><span>Dashboard</span></li>
-        <li onclick="navigateTo('screen-products')"><i class="fas fa-box-open"></i><span>Productos</span></li>
-        <li onclick="navigateTo('screen-lots')"><i class="fas fa-layer-group"></i><span>Lotes</span></li>
+        <li data-navigate="screen-dashboard"><i class="fas fa-th-large"></i><span>Dashboard</span></li>
+        <li data-navigate="screen-products"><i class="fas fa-box-open"></i><span>Productos</span></li>
+        <li data-navigate="screen-lots"><i class="fas fa-layer-group"></i><span>Lotes</span></li>
         <li class="menu-label">Gestión</li>
-        <li onclick="navigateTo('screen-alerts')"><i class="fas fa-bell"></i><span>Alertas</span><span class="badge badge-danger">7</span></li>
-        <li onclick="navigateTo('screen-suppliers')"><i class="fas fa-truck"></i><span>Proveedores</span></li>
-        <li class="active" onclick="navigateTo('screen-users')"><i class="fas fa-users-cog"></i><span>Usuarios</span></li>
+        <li data-navigate="screen-alerts"><i class="fas fa-bell"></i><span>Alertas</span><span class="badge badge-danger">7</span></li>
+        <li data-navigate="screen-suppliers"><i class="fas fa-truck"></i><span>Proveedores</span></li>
+        <li class="active" data-navigate="screen-users"><i class="fas fa-users-cog"></i><span>Usuarios</span></li>
         <li class="menu-label">Análisis</li>
-        <li onclick="navigateTo('screen-reports')"><i class="fas fa-chart-bar"></i><span>Reportes</span></li>
+        <li data-navigate="screen-reports"><i class="fas fa-chart-bar"></i><span>Reportes</span></li>
       </ul>
     </nav>
     <main class="main-content">
       <header class="top-bar">
         <div class="top-bar-left"><div class="page-title"><h1>Gestión de Usuarios</h1><p class="breadcrumb">Inicio / Usuarios</p></div></div>
         <div class="top-bar-right">
-          <button class="icon-btn theme-toggle-btn" onclick="toggleTheme(event)"><i class="fas fa-moon"></i><i class="fas fa-sun"></i></button>
+          <button class="icon-btn theme-toggle-btn" data-action="toggle-theme"><i class="fas fa-moon"></i><i class="fas fa-sun"></i></button>
           <button class="btn-primary"><i class="fas fa-user-plus"></i> Nuevo Usuario</button>
         </div>
       </header>
@@ -1333,27 +1333,27 @@
     <nav class="sidebar">
       <div class="sidebar-header">
         <div class="logo-small"><i class="fas fa-seedling"></i> <span>FreshStock</span></div>
-        <button class="sidebar-toggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+        <button class="sidebar-toggle" data-action="toggle-sidebar"><i class="fas fa-bars"></i></button>
       </div>
       <div class="sidebar-user"><div class="user-avatar">SA</div><div class="user-info"><span class="user-name">Sadid Acosta</span><span class="user-role">Administrador</span></div></div>
       <ul class="sidebar-menu">
         <li class="menu-label">Principal</li>
-        <li onclick="navigateTo('screen-dashboard')"><i class="fas fa-th-large"></i><span>Dashboard</span></li>
-        <li onclick="navigateTo('screen-products')"><i class="fas fa-box-open"></i><span>Productos</span></li>
-        <li onclick="navigateTo('screen-lots')"><i class="fas fa-layer-group"></i><span>Lotes</span></li>
+        <li data-navigate="screen-dashboard"><i class="fas fa-th-large"></i><span>Dashboard</span></li>
+        <li data-navigate="screen-products"><i class="fas fa-box-open"></i><span>Productos</span></li>
+        <li data-navigate="screen-lots"><i class="fas fa-layer-group"></i><span>Lotes</span></li>
         <li class="menu-label">Gestión</li>
-        <li onclick="navigateTo('screen-alerts')"><i class="fas fa-bell"></i><span>Alertas</span><span class="badge badge-danger">7</span></li>
-        <li onclick="navigateTo('screen-suppliers')"><i class="fas fa-truck"></i><span>Proveedores</span></li>
-        <li onclick="navigateTo('screen-users')"><i class="fas fa-users-cog"></i><span>Usuarios</span></li>
+        <li data-navigate="screen-alerts"><i class="fas fa-bell"></i><span>Alertas</span><span class="badge badge-danger">7</span></li>
+        <li data-navigate="screen-suppliers"><i class="fas fa-truck"></i><span>Proveedores</span></li>
+        <li data-navigate="screen-users"><i class="fas fa-users-cog"></i><span>Usuarios</span></li>
         <li class="menu-label">Análisis</li>
-        <li class="active" onclick="navigateTo('screen-reports')"><i class="fas fa-chart-bar"></i><span>Reportes</span></li>
+        <li class="active" data-navigate="screen-reports"><i class="fas fa-chart-bar"></i><span>Reportes</span></li>
       </ul>
     </nav>
     <main class="main-content">
       <header class="top-bar">
         <div class="top-bar-left"><div class="page-title"><h1>Reportes y Auditoría</h1><p class="breadcrumb">Inicio / Reportes</p></div></div>
         <div class="top-bar-right">
-          <button class="icon-btn theme-toggle-btn" onclick="toggleTheme(event)"><i class="fas fa-moon"></i><i class="fas fa-sun"></i></button>
+          <button class="icon-btn theme-toggle-btn" data-action="toggle-theme"><i class="fas fa-moon"></i><i class="fas fa-sun"></i></button>
           <button class="btn-outline"><i class="fas fa-calendar"></i> Último mes</button>
           <button class="btn-primary"><i class="fas fa-download"></i> Exportar PDF</button>
         </div>
@@ -1462,11 +1462,11 @@
 
 <!-- Toast Container -->
 <!-- New Product Slide-over Panel -->
-<div class="slide-backdrop" id="new-product-backdrop" onclick="closeNewProductPanel()"></div>
+<div class="slide-backdrop" id="new-product-backdrop" data-action="close-new-product"></div>
 <div class="slide-panel" id="new-product-panel">
   <div class="slide-panel-header">
     <h2><i class="fas fa-box-open"></i> Nuevo Producto</h2>
-    <button class="icon-btn-sm" onclick="closeNewProductPanel()"><i class="fas fa-times"></i></button>
+    <button class="icon-btn-sm" data-action="close-new-product"><i class="fas fa-times"></i></button>
   </div>
   <div class="slide-panel-body">
     <form id="new-product-form" class="standard-form">
@@ -1527,7 +1527,7 @@
     </form>
   </div>
   <div class="slide-panel-footer">
-    <button type="button" class="btn-outline" onclick="closeNewProductPanel()">Cancelar</button>
+    <button type="button" class="btn-outline" data-action="close-new-product">Cancelar</button>
     <button type="submit" form="new-product-form" class="btn-primary">Guardar Producto</button>
   </div>
 </div>

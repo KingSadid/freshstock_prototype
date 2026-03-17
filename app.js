@@ -1,18 +1,51 @@
 // ============================================================
 //  FreshStock — Interactive Prototype
-//  Animations powered by GSAP 3  |  Dark/Light theme support
+//  Animations powered by GSAP 3 
 // ============================================================
 
+'use strict';
+
+// ─── Animation Constants ───────────────────────────────────
+const ANIMATION = {
+  // Durations
+  FAST: 0.2,
+  NORMAL: 0.3,
+  SLOW: 0.4,
+  SLOWER: 0.5,
+  SLOWEST: 0.6,
+  NUMBER_ANIMATION: 1.2,   // for the KPI number counter
+   
+  // Delays
+  SHORT_DELAY: 0.1,
+  MEDIUM_DELAY: 0.15,
+  LONG_DELAY: 0.2,
+  NUMBER_ANIMATION_DELAY: 0.3, // for the KPI number counter
+   
+  // Staggers
+  TIGHT_STAGGER: 0.03,
+  NORMAL_STAGGER: 0.06,
+  LOOSE_STAGGER: 0.09,
+   
+  // Easings
+  EASE_IN_OUT: 'power2.inOut',
+  EASE_OUT: 'power2.out',
+  EASE_BOUNCE_OUT: 'back.out(1.6)',
+  EASE_BOUNCE_STRONG: 'back.out(2.5)',
+  EASE_POWER3_OUT: 'power3.out'
+};
+
 // ─── State ───────────────────────────────────────────────────
-let isNavigating = false;
-let currentScreenId = 'screen-login';
+const appState = {
+  isNavigating: false,
+  currentScreenId: 'screen-login'
+};
 
 // ─── Core navigation with Loading animation ────────────
 function navigateTo(screenId) {
-  if (isNavigating || screenId === currentScreenId) return;
-  isNavigating = true;
+  if (appState.isNavigating || screenId === appState.currentScreenId) return;
+  appState.isNavigating = true;
 
-  const current = document.getElementById(currentScreenId);
+  const current = document.getElementById(appState.currentScreenId);
   const next    = document.getElementById(screenId);
   const loadingOverlay = document.getElementById('loading-overlay');
   if (!next) { isNavigating = false; return; }
@@ -139,13 +172,13 @@ function animateWelcomeBanner(container) {
   if (!banner) return;
   gsap.fromTo(banner,
     { opacity: 0, scale: 0.97, y: 16 },
-    { opacity: 1, scale: 1, y: 0, duration: 0.55, ease: 'power3.out', delay: 0.05 }
+    { opacity: 1, scale: 1, y: 0, duration: ANIMATION.SLOWEST, ease: ANIMATION.EASE_POWER3_OUT, delay: ANIMATION.SHORT_DELAY }
   );
   const icon = banner.querySelector('.wb-illustration');
   if (icon) {
     gsap.fromTo(icon,
       { scale: 0.6, opacity: 0, rotate: -20 },
-      { scale: 1, opacity: 1, rotate: 0, duration: 0.6, ease: 'back.out(1.7)', delay: 0.3 }
+      { scale: 1, opacity: 1, rotate: 0, duration: ANIMATION.SLOWEST, ease: 'back.out(1.7)', delay: ANIMATION.MEDIUM_DELAY }
     );
   }
 }
@@ -155,19 +188,19 @@ function animateKpiCards(container) {
   const cards = container.querySelectorAll('.kpi-card');
   gsap.fromTo(cards,
     { opacity: 0, y: 35, scale: 0.92 },
-    { opacity: 1, y: 0, scale: 1, duration: 0.5, stagger: 0.1, ease: 'back.out(1.6)', delay: 0.15 }
+    { opacity: 1, y: 0, scale: 1, duration: ANIMATION.SLOWER, stagger: ANIMATION.LOOSE_STAGGER, ease: ANIMATION.EASE_BOUNCE_OUT, delay: ANIMATION.MEDIUM_DELAY }
   );
   // Icon pop-in with spring
   const icons = container.querySelectorAll('.kpi-icon');
   gsap.fromTo(icons,
     { scale: 0, opacity: 0, rotate: -30 },
-    { scale: 1, opacity: 1, rotate: 0, duration: 0.45, stagger: 0.1, ease: 'back.out(2.5)', delay: 0.35 }
+    { scale: 1, opacity: 1, rotate: 0, duration: ANIMATION.NORMAL, stagger: ANIMATION.LOOSE_STAGGER, ease: ANIMATION.EASE_BOUNCE_STRONG, delay: ANIMATION.SLOW }
   );
   // Trend badges fade in
   const trends = container.querySelectorAll('.kpi-trend');
   gsap.fromTo(trends,
     { opacity: 0, x: 10 },
-    { opacity: 1, x: 0, duration: 0.3, stagger: 0.08, ease: 'power2.out', delay: 0.55 }
+    { opacity: 1, x: 0, duration: ANIMATION.NORMAL, stagger: ANIMATION.NORMAL_STAGGER, ease: ANIMATION.EASE_OUT, delay: ANIMATION.SLOWER + ANIMATION.NORMAL_STAGGER }
   );
 }
 
@@ -179,16 +212,16 @@ function animateDonut(container) {
     gsap.set(seg, { strokeDasharray: totalLength, strokeDashoffset: totalLength });
     gsap.to(seg, {
       strokeDashoffset: 0,
-      duration: 1.0,
-      ease: 'power2.inOut',
-      delay: 0.4 + i * 0.12
+      duration: ANIMATION.SLOWEST,
+      ease: ANIMATION.EASE_IN_OUT,
+      delay: ANIMATION.SLOWER + i * ANIMATION.NORMAL_STAGGER
     });
   });
   // Legend items
   const legendItems = container.querySelectorAll('.dl-item');
   gsap.fromTo(legendItems,
     { opacity: 0, y: 8 },
-    { opacity: 1, y: 0, duration: 0.3, stagger: 0.06, ease: 'power2.out', delay: 0.8 }
+    { opacity: 1, y: 0, duration: ANIMATION.NORMAL, stagger: ANIMATION.NORMAL_STAGGER, ease: ANIMATION.EASE_OUT, delay: ANIMATION.SLOWEST }
   );
 }
 
@@ -197,7 +230,7 @@ function animateExpiryItems(container) {
   const items = container.querySelectorAll('.expiry-item');
   gsap.fromTo(items,
     { opacity: 0, x: -20 },
-    { opacity: 1, x: 0, duration: 0.35, stagger: 0.06, ease: 'power2.out', delay: 0.3 }
+    { opacity: 1, x: 0, duration: ANIMATION.NORMAL, stagger: ANIMATION.NORMAL_STAGGER, ease: ANIMATION.EASE_OUT, delay: ANIMATION.SLOW }
   );
 }
 
@@ -206,7 +239,7 @@ function animateActivityItems(container) {
   const items = container.querySelectorAll('.activity-item');
   gsap.fromTo(items,
     { opacity: 0, x: 18 },
-    { opacity: 1, x: 0, duration: 0.35, stagger: 0.06, ease: 'power2.out', delay: 0.35 }
+    { opacity: 1, x: 0, duration: ANIMATION.NORMAL, stagger: ANIMATION.NORMAL_STAGGER, ease: ANIMATION.EASE_OUT, delay: ANIMATION.SLOW }
   );
 }
 
@@ -216,7 +249,7 @@ function animateStockBars(container) {
     const target = fill.style.width || '0%';
     gsap.fromTo(fill,
       { width: '0%' },
-      { width: target, duration: 0.8, ease: 'power2.out', delay: 0.2 + i * 0.05 }
+      { width: target, duration: ANIMATION.SLOWER, ease: ANIMATION.EASE_OUT, delay: ANIMATION.SHORT_DELAY + i * ANIMATION.TIGHT_STAGGER }
     );
   });
 }
@@ -226,13 +259,13 @@ function animateProductCards(container) {
   const cards = container.querySelectorAll('.product-card');
   gsap.fromTo(cards,
     { opacity: 0, y: 32, scale: 0.94 },
-    { opacity: 1, y: 0, scale: 1, duration: 0.45, stagger: 0.07, ease: 'back.out(1.3)', delay: 0.1 }
+    { opacity: 1, y: 0, scale: 1, duration: ANIMATION.NORMAL - ANIMATION.FAST, stagger: ANIMATION.NORMAL_STAGGER, ease: 'back.out(1.3)', delay: ANIMATION.SHORT_DELAY }
   );
   // Chips
   const chips = container.querySelectorAll('.chip');
   gsap.fromTo(chips,
     { opacity: 0, scale: 0.85 },
-    { opacity: 1, scale: 1, duration: 0.3, stagger: 0.04, ease: 'back.out(2)', delay: 0.05 }
+    { opacity: 1, scale: 1, duration: ANIMATION.FAST, stagger: ANIMATION.TIGHT_STAGGER, ease: 'back.out(2)', delay: ANIMATION.TIGHT_STAGGER }
   );
 }
 
@@ -242,14 +275,14 @@ function animateDetailEntrance(container) {
   if (hero) {
     gsap.fromTo(hero,
       { opacity: 0, scale: 1.05 },
-      { opacity: 1, scale: 1, duration: 0.6, ease: 'power2.out', delay: 0.1 }
+      { opacity: 1, scale: 1, duration: ANIMATION.SLOWEST, ease: ANIMATION.EASE_OUT, delay: ANIMATION.SHORT_DELAY }
     );
   }
   const sidebar = container.querySelector('.detail-sidebar');
   if (sidebar) {
     gsap.fromTo(sidebar.children,
       { opacity: 0, x: 20 },
-      { opacity: 1, x: 0, duration: 0.4, stagger: 0.1, ease: 'power2.out', delay: 0.25 }
+      { opacity: 1, x: 0, duration: ANIMATION.NORMAL - ANIMATION.FAST, stagger: ANIMATION.LOOSE_STAGGER, ease: ANIMATION.EASE_OUT, delay: ANIMATION.MEDIUM_DELAY }
     );
   }
   // Table rows in detail
@@ -262,19 +295,19 @@ function animateAlerts(container) {
   const sumCards = container.querySelectorAll('.alert-sum-card');
   gsap.fromTo(sumCards,
     { opacity: 0, scale: 0.88, y: 16 },
-    { opacity: 1, scale: 1, y: 0, duration: 0.42, stagger: 0.08, ease: 'back.out(1.8)', delay: 0.05 }
+    { opacity: 1, scale: 1, y: 0, duration: ANIMATION.NORMAL - ANIMATION.FAST, stagger: ANIMATION.NORMAL_STAGGER, ease: 'back.out(1.8)', delay: ANIMATION.SHORT_DELAY }
   );
   // Alert items slide in
   const items = container.querySelectorAll('.alert-item');
   gsap.fromTo(items,
     { opacity: 0, x: -36, scale: 0.98 },
-    { opacity: 1, x: 0, scale: 1, duration: 0.4, stagger: 0.08, ease: 'power3.out', delay: 0.2 }
+    { opacity: 1, x: 0, scale: 1, duration: ANIMATION.NORMAL - ANIMATION.FAST, stagger: ANIMATION.NORMAL_STAGGER, ease: ANIMATION.EASE_POWER3_OUT, delay: ANIMATION.SLOW }
   );
   // Alert icon wraps pop
   const icons = container.querySelectorAll('.alert-icon-wrap');
   gsap.fromTo(icons,
     { scale: 0.5, opacity: 0 },
-    { scale: 1, opacity: 1, duration: 0.35, stagger: 0.08, ease: 'back.out(2)', delay: 0.35 }
+    { scale: 1, opacity: 1, duration: ANIMATION.NORMAL - ANIMATION.FAST, stagger: ANIMATION.NORMAL_STAGGER, ease: 'back.out(2)', delay: ANIMATION.NORMAL }
   );
 }
 
@@ -283,7 +316,7 @@ function animateTableRows(container) {
   const rows = container.querySelectorAll('.data-table tbody tr');
   gsap.fromTo(rows,
     { opacity: 0, x: -20 },
-    { opacity: 1, x: 0, duration: 0.32, stagger: 0.04, ease: 'power2.out', delay: 0.2 }
+    { opacity: 1, x: 0, duration: ANIMATION.NORMAL - ANIMATION.FAST, stagger: ANIMATION.TIGHT_STAGGER, ease: ANIMATION.EASE_OUT, delay: ANIMATION.SLOW }
   );
 }
 
@@ -293,7 +326,7 @@ function animatePepsBanner(container) {
   if (!banner) return;
   gsap.fromTo(banner,
     { opacity: 0, y: -16, scale: 0.97 },
-    { opacity: 1, y: 0, scale: 1, duration: 0.45, ease: 'power2.out', delay: 0.1 }
+    { opacity: 1, y: 0, scale: 1, duration: ANIMATION.NORMAL - ANIMATION.FAST, ease: ANIMATION.EASE_OUT, delay: ANIMATION.SHORT_DELAY }
   );
 }
 
@@ -303,20 +336,20 @@ function animateScannerEntrance(container) {
   if (viewport) {
     gsap.fromTo(viewport,
       { opacity: 0, scale: 0.9 },
-      { opacity: 1, scale: 1, duration: 0.5, ease: 'back.out(1.4)', delay: 0.15 }
+      { opacity: 1, scale: 1, duration: ANIMATION.SLOWER - ANIMATION.FAST, ease: 'back.out(1.4)', delay: ANIMATION.MEDIUM_DELAY }
     );
     // Scanner corners pop in
     const corners = viewport.querySelectorAll('.scanner-corner');
     gsap.fromTo(corners,
       { scale: 0, opacity: 0 },
-      { scale: 1, opacity: 1, duration: 0.35, stagger: 0.08, ease: 'back.out(3)', delay: 0.4 }
+      { scale: 1, opacity: 1, duration: ANIMATION.NORMAL - ANIMATION.FAST, stagger: ANIMATION.NORMAL_STAGGER, ease: 'back.out(3)', delay: ANIMATION.SLOW }
     );
   }
   // Form fields stagger
   const formGroups = container.querySelectorAll('.lot-form .form-group');
   gsap.fromTo(formGroups,
     { opacity: 0, y: 14 },
-    { opacity: 1, y: 0, duration: 0.3, stagger: 0.05, ease: 'power2.out', delay: 0.3 }
+    { opacity: 1, y: 0, duration: ANIMATION.NORMAL, stagger: ANIMATION.TIGHT_STAGGER, ease: ANIMATION.EASE_OUT, delay: ANIMATION.SLOW }
   );
 }
 
@@ -325,13 +358,13 @@ function animateSupplierCards(container) {
   const cards = container.querySelectorAll('.supplier-card');
   gsap.fromTo(cards,
     { opacity: 0, scale: 0.9, y: 24 },
-    { opacity: 1, scale: 1, y: 0, duration: 0.48, stagger: 0.1, ease: 'back.out(1.5)', delay: 0.1 }
+    { opacity: 1, scale: 1, y: 0, duration: ANIMATION.SLOWER - ANIMATION.FAST, stagger: ANIMATION.LOOSE_STAGGER, ease: 'back.out(1.5)', delay: ANIMATION.SHORT_DELAY }
   );
   // Avatars pop
   const avatars = container.querySelectorAll('.sc-avatar');
   gsap.fromTo(avatars,
     { scale: 0.5, opacity: 0 },
-    { scale: 1, opacity: 1, duration: 0.35, stagger: 0.1, ease: 'back.out(2.5)', delay: 0.35 }
+    { scale: 1, opacity: 1, duration: ANIMATION.NORMAL - ANIMATION.FAST, stagger: ANIMATION.LOOSE_STAGGER, ease: ANIMATION.EASE_BOUNCE_STRONG, delay: ANIMATION.SLOW }
   );
 }
 
@@ -340,13 +373,13 @@ function animateUserCards(container) {
   const cards = container.querySelectorAll('.user-card');
   gsap.fromTo(cards,
     { opacity: 0, y: 35, scale: 0.92 },
-    { opacity: 1, y: 0, scale: 1, duration: 0.45, stagger: 0.09, ease: 'back.out(1.4)', delay: 0.1 }
+    { opacity: 1, y: 0, scale: 1, duration: ANIMATION.NORMAL - ANIMATION.FAST, stagger: ANIMATION.NORMAL_STAGGER, ease: 'back.out(1.4)', delay: ANIMATION.SHORT_DELAY }
   );
   // Avatars
   const avatars = container.querySelectorAll('.uc-avatar');
   gsap.fromTo(avatars,
     { scale: 0.4, opacity: 0, rotate: -20 },
-    { scale: 1, opacity: 1, rotate: 0, duration: 0.4, stagger: 0.09, ease: 'back.out(2.5)', delay: 0.3 }
+    { scale: 1, opacity: 1, rotate: 0, duration: ANIMATION.NORMAL - ANIMATION.FAST, stagger: ANIMATION.NORMAL_STAGGER, ease: ANIMATION.EASE_BOUNCE_STRONG, delay: ANIMATION.SLOW }
   );
 }
 
@@ -356,7 +389,7 @@ function animateBarChart(container) {
     const target = fill.style.width || '0%';
     gsap.fromTo(fill,
       { width: '0%' },
-      { width: target, duration: 1.0, ease: 'power2.out', delay: 0.25 + i * 0.1 }
+      { width: target, duration: ANIMATION.SLOWEST, ease: ANIMATION.EASE_OUT, delay: ANIMATION.SHORT_DELAY + i * ANIMATION.NORMAL_STAGGER }
     );
   });
 }
@@ -366,7 +399,7 @@ function animateMermaItems(container) {
   const items = container.querySelectorAll('.merma-item');
   gsap.fromTo(items,
     { opacity: 0, x: 20 },
-    { opacity: 1, x: 0, duration: 0.32, stagger: 0.06, ease: 'power2.out', delay: 0.3 }
+    { opacity: 1, x: 0, duration: ANIMATION.NORMAL - ANIMATION.FAST, stagger: ANIMATION.NORMAL_STAGGER, ease: ANIMATION.EASE_OUT, delay: ANIMATION.SLOW }
   );
 }
 
@@ -383,9 +416,9 @@ function animateNumbers(container) {
 
     gsap.to(obj, {
       val: num,
-      duration: 1.2,
-      ease: 'power2.out',
-      delay: 0.3,
+      duration: ANIMATION.NUMBER_ANIMATION,
+      ease: ANIMATION.EASE_OUT,
+      delay: ANIMATION.NUMBER_ANIMATION_DELAY,
       onUpdate: () => {
         el.textContent = prefix + Math.round(obj.val).toLocaleString('es-CO') + suffix;
       }
@@ -879,15 +912,34 @@ document.addEventListener('DOMContentLoaded', () => {
     btn.addEventListener('click', addRipple);
   });
 
+  // Handle navigation via data attributes
+  document.addEventListener('click', (e) => {
+    // Handle screen navigation
+    const navElement = e.target.closest('[data-navigate]');
+    if (navElement) {
+      const screenId = navElement.getAttribute('data-navigate');
+      navigateTo(screenId);
+      return;
+    }
+
+    // Handle other actions
+    const actionElement = e.target.closest('[data-action]');
+    if (actionElement) {
+      const action = actionElement.getAttribute('data-action');
+      handleAction(action, actionElement, e);
+      return;
+    }
+  });
+
   // Micro-interactions
   initKpiHover();
   initCardHover();
-        initDeleteInteractions();
+  initDeleteInteractions();
   initSidebarInteractions();
   initNotifPulse();
   initChipInteractions();
   initFormInteractions();
-  initDeleteInteractions();
+  // Removed duplicate initDeleteInteractions call
 
   // Re-init hover listeners when screens become active
   const observer = new MutationObserver(mutations => {
@@ -916,4 +968,24 @@ document.addEventListener('DOMContentLoaded', () => {
 // ─── Sidebar toggle ───────────────────────────────────────────
 function toggleSidebar() {
   document.querySelectorAll('.sidebar').forEach(s => s.classList.toggle('collapsed'));
+}
+
+// ─── Action handler for data-action attributes ─────────────────
+function handleAction(action, element, event) {
+  switch (action) {
+    case 'toggle-sidebar':
+      toggleSidebar();
+      break;
+    case 'toggle-theme':
+      toggleTheme(event);
+      break;
+    case 'open-new-product':
+      openNewProductPanel();
+      break;
+    case 'close-new-product':
+      closeNewProductPanel();
+      break;
+    default:
+      console.warn(`Unknown action: ${action}`);
+  }
 }
