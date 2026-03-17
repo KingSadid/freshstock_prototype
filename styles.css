@@ -501,7 +501,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); c
 /* Notif dot pulse ring */
 @keyframes pulse-ring {
   0%   { transform: scale(1);   opacity: 0.6; }
-  100% { transform: scale(2.4); opacity: 0; }
+  100% { transform: scale(2.6); opacity: 0; }
 }
 .notif-dot::after {
   content: '';
@@ -510,8 +510,8 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); c
   border-radius: 50%;
   background: var(--danger);
   animation: pulse-ring 1.6s ease-out infinite;
+  z-index: -1;
 }
-.notif-dot { position: relative; overflow: visible; }
 
 /* Ripple base */
 .btn-primary, .btn-outline {
