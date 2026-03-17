@@ -523,10 +523,12 @@ function animateLoginEntrance() {
   );
 }
 
+
 // ─── Theme toggle ─────────────────────────────────────────────
-function toggleTheme() {
+function toggleTheme(e) {
   const html  = document.documentElement;
-  const btn   = document.getElementById('theme-toggle');
+  // If e is passed, animate the specific button clicked, else find the first one
+  const btn = e ? e.currentTarget : document.querySelector('.theme-toggle-btn');
   const isDark = html.getAttribute('data-theme') === 'dark';
 
   const switchTheme = () => {
@@ -538,6 +540,11 @@ function toggleTheme() {
       localStorage.setItem('freshstock-theme', 'dark');
     }
   };
+
+  if (!btn) {
+    switchTheme();
+    return;
+  }
 
   // Animate the toggle button
   gsap.timeline()
@@ -696,6 +703,29 @@ function initFormInteractions() {
     };
   }
   
+
+  // New Product form submission mock
+  const newProductForm = document.getElementById('new-product-form');
+  if (newProductForm) {
+    newProductForm.onsubmit = function(e) {
+      e.preventDefault();
+      const btnSubmit = this.querySelector('button[type="submit"]');
+      setBtnLoading(btnSubmit, true);
+      
+      setTimeout(() => {
+        setBtnLoading(btnSubmit, false);
+        closeNewProductPanel();
+        showToast('Producto Creado', 'El nuevo producto ha sido agregado al catálogo exitosamente.', 'success');
+        
+        // Add visual feedback to the grid
+        addNewProductCardToGrid();
+        
+        // Clear the form for next time
+        setTimeout(() => newProductForm.reset(), 500);
+      }, 1200);
+    };
+  }
+
   // Lot form submission mock
   const lotForm = document.querySelector('.lot-form');
   if (lotForm) {
@@ -760,6 +790,82 @@ function initDeleteInteractions() {
       });
     });
   });
+}
+
+
+// ─── Slide-over Panel (New Product) ──────────────────────────
+function openNewProductPanel() {
+  const backdrop = document.getElementById('new-product-backdrop');
+  const panel = document.getElementById('new-product-panel');
+  
+  if (!backdrop || !panel) return;
+  
+  backdrop.classList.add('active');
+  panel.classList.add('open');
+  
+  // Stagger animate form elements inside
+  const formEls = panel.querySelectorAll('.slide-stagger');
+  gsap.fromTo(formEls, 
+    { x: 30, opacity: 0 }, 
+    { x: 0, opacity: 1, duration: 0.4, stagger: 0.05, ease: 'power2.out', delay: 0.15 }
+  );
+}
+
+function closeNewProductPanel() {
+  const backdrop = document.getElementById('new-product-backdrop');
+  const panel = document.getElementById('new-product-panel');
+  
+  if (!backdrop || !panel) return;
+  
+  backdrop.classList.remove('active');
+  panel.classList.remove('open');
+}
+
+function addNewProductCardToGrid() {
+  const grid = document.querySelector('.product-grid');
+  if (!grid) return;
+  
+  const card = document.createElement('div');
+  card.className = 'product-card';
+  card.onclick = () => navigateTo('screen-product-detail');
+  card.innerHTML = `
+    <div class="pc-image" style="background: linear-gradient(135deg, #d1fae5, #a7f3d0);">
+      <i class="fas fa-box" style="color:#10b981;font-size:2.5rem;"></i>
+      <span class="pc-badge ok">Nuevo</span>
+    </div>
+    <div class="pc-body">
+      <div class="pc-header">
+        <h3>Nuevo Producto</h3>
+        <span class="pc-sku">NVO-001</span>
+      </div>
+      <div class="pc-stats">
+        <div class="pc-stat"><span class="pc-val">0</span><span class="pc-lbl">Stock</span></div>
+        <div class="pc-stat"><span class="pc-val">20</span><span class="pc-lbl">Min</span></div>
+      </div>
+    </div>
+    <div class="pc-footer">
+      <span class="pc-cat"><i class="fas fa-tag"></i> General</span>
+    </div>
+    <div class="pc-quick-actions">
+      <button class="btn-primary btn-sm btn-full"><i class="fas fa-plus"></i> Añadir</button>
+      <button class="btn-outline btn-sm btn-full"><i class="fas fa-eye"></i> Lotes</button>
+    </div>
+  `;
+  
+  grid.insertBefore(card, grid.firstChild);
+  
+  // Re-bind hover logic for the new card
+  if (!card._hoverBound) {
+    card._hoverBound = true;
+    card.addEventListener('mouseenter', () => gsap.to(card, { y: -6, duration: 0.3, ease: 'power2.out' }));
+    card.addEventListener('mouseleave', () => gsap.to(card, { y: 0, duration: 0.35, ease: 'power2.out' }));
+  }
+  
+  // Animate entry
+  gsap.fromTo(card,
+    { opacity: 0, scale: 0.8, y: 30 },
+    { opacity: 1, scale: 1, y: 0, duration: 0.5, ease: 'back.out(1.5)' }
+  );
 }
 
 // ─── Initialise on DOM ready ──────────────────────────────────
